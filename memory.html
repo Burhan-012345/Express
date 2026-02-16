@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamari Yaadein 🤍</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .memory-heart {
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body class="page-blur memory-page">
+    <div class="dreamy-overlay"></div>
+    
+    <div class="content dreamy-content" style="max-width: 800px;">
+        <div class="bubu-dudu-container">
+            <img src="gifs/bubu-memory.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy" onerror="this.src='gifs/bubu1.gif'">
+        </div>
+        
+        <h1 class="main-title dreamy-title">
+            <span class="title-words">
+                <span class="word">Hamari</span>
+                <span class="word">Yaadein</span>
+                <span class="word">🤍</span>
+            </span>
+        </h1>
+        
+        <p class="intro-text dreamy-text center-text" style="margin-bottom: 40px;">
+            <i class="fas fa-heart memory-heart"></i> Kuch pal jo zindagi mein hamesha yaad rahenge... ✨
+        </p>
+        
+        <div class="memory-timeline">
+            <!-- Memory 1 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-laugh-beam"></i>
+                </div>
+                <div class="memory-date">Pehli Baar... 🌟</div>
+                <div class="memory-text">
+                    Jab pehli baar apka call aaya, us time mai itna kush hua ta ki kya batau 😊, vo din mujhe hamesha yaad rahega. <br>
+                    <span class="memory-heart">❤️</span> Kabhi socha nhi tha ki ap mujse door chale jaoge. 
+                </div>
+            </div>
+            
+            <!-- Memory 2 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="memory-date">First kiss 💋</div>
+                <div class="memory-text">
+                    Us din ap ek red color ke dress me itne pyaare lag rahe the kya batau 😍<br>
+                    <span class="memory-heart">❤️</span> Fir apka vo sharmate hue kissi dena, hayee 😳 mai kabhi nhi bhulunga
+                </div>
+            </div>
+            
+            <!-- Memory 3 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-coffee"></i>
+                </div>
+                <div class="memory-date">Apka gussa 😠</div>
+                <div class="memory-text">
+                    Har choti choti baaton pe apka gussa, mujhe aaj bhi yaad hai jab mai apni behen kj kucj baat karta to ap kitna gussa karte 😔<br>
+                    <span class="memory-heart">❤️</span> Aur maine apko kitna pareshan kiya hai, uske liye sorry dil se. 🥺
+                </div>
+            </div>
+            
+            <!-- Memory 4 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="memory-date">Apka gaana 🎵</div>
+                <div class="memory-text">
+                    Apke jab pheli baar apni aawaaz me gaana gaa kar muhje bheja vo best din tha mere liye 😊, vo baat alag thi ki apki tabiyat thik nhi thi us time pe 😟, but fir b apne try kiya vahi bohot hai. 💪<br>
+                    <span class="memory-heart">❤️</span> Lyrics zyada meaningful lagte the ✨.
+                </div>
+            </div>
+            
+            <!-- Memory 5 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="memory-date">Chhoti Khushiyan ✨</div>
+                <div class="memory-text">
+                    Apki har photo dekh kar khsuh hona 😊, mujhe aaj bhi pasand hai, but kabhi kabhi rona bhi aata hai apko dekhkar jab ap mere sath nhi hote ho 😢<br>
+                    <span class="memory-heart">❤️</span> Apki presence hoti hai to sab accha lagne lagta hai. 
+                </div>
+            </div>
+            
+            <!-- Memory 6 -->
+            <div class="memory-card">
+                <div class="memory-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="memory-date">Ek Ehsaas 💖</div>
+                <div class="memory-text">
+                    Yeh ehsaas ki ap saath ho... 🤗<br>
+                    <span class="memory-heart">❤️</span> Sab kuch theek ho jayega ✨, bas tum saath raho. 🥰
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-navigation" style="margin-top: 40px;">
+            <a href="index.html#future" class="section-nav-btn dreamy-btn">
+                <i class="fas fa-arrow-left"></i> Back to Main
+            </a>
+            <a href="songs.html" class="section-nav-btn dreamy-btn">
+                Songs <i class="fas fa-music"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="musicToggle" class="music-btn dreamy-btn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+    
+    <script>
+        // Remove blur effect
+        setTimeout(() => {
+            document.body.classList.remove('page-blur');
+            document.body.classList.add('page-clear');
+        }, 500);
+        
+        // Animate memory cards on scroll
+        const memoryCards = document.querySelectorAll('.memory-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        memoryCards.forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Music control
+        const musicToggle = document.getElementById('musicToggle');
+        let isMusicPlaying = false;
+        
+        // Check if music is already playing from main page
+        try {
+            const audio = new Audio('https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3');
+            audio.volume = 0;
+            audio.play().then(() => {
+                audio.pause();
+                isMusicPlaying = true;
+                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+            });
+        } catch (e) {
+            console.log("Music not available");
+        }
+        
+        musicToggle.addEventListener('click', () => {
+            isMusicPlaying = !isMusicPlaying;
+            musicToggle.innerHTML = isMusicPlaying ? 
+                '<i class="fas fa-volume-up"></i>' : 
+                '<i class="fas fa-volume-mute"></i>';
+        });
+    </script>
+</body>
+</html>

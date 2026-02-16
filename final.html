@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jo bhi ho… tumhari marzi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Override blur for romantic intro */
+        .page-blur {
+            filter: none !important;
+            backdrop-filter: none !important;
+        }
+        
+        /* Romantic Intro Section Styles */
+        .romantic-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(145deg, #ffe9f2 0%, #ffd9e8 40%, #ffe0f0 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', 'Dancing Script', serif;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .floating-hearts-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .floating-hearts-bg i {
+            position: absolute;
+            color: rgba(255, 120, 160, 0.2);
+            font-size: 24px;
+            animation: floatHeart 10s infinite linear;
+            bottom: -50px;
+        }
+        
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .question-wrapper {
+            max-width: 750px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 60px 20px 60px 20px;
+            padding: 40px 30px;
+            box-shadow: 0 30px 50px rgba(255, 80, 140, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            text-align: center;
+            z-index: 10001;
+        }
+        
+        .question-text {
+            font-size: 2.2rem;
+            font-weight: 500;
+            font-family: 'Dancing Script', cursive;
+            color: #5e3b4e;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+        
+        .answer-text {
+            font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            color: #c44569;
+            text-shadow: 2px 2px 10px rgba(255, 200, 220, 0.8);
+            margin: 25px 0 20px;
+            animation: fadeSoft 0.6s ease;
+            background: rgba(255, 235, 240, 0.7);
+            padding: 20px;
+            border-radius: 50px 10px 50px 10px;
+        }
+        
+        @keyframes fadeSoft {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn-romantic {
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.5rem;
+            font-family: 'Dancing Script', 'Playfair Display', serif;
+            border-radius: 60px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(255, 120, 160, 0.3);
+            color: #b34167;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid transparent;
+        }
+        
+        .btn-romantic:hover {
+            background: #ffced9;
+            box-shadow: 0 0 20px #ff99aa;
+            transform: scale(1.05);
+            border-color: #ffa5b9;
+        }
+        
+        .btn-next {
+            background: #ff8da1;
+            color: white;
+            padding: 12px 40px;
+            font-size: 1.8rem;
+            border-radius: 50px;
+            border: none;
+            margin-top: 15px;
+            box-shadow: 0 5px 0 #b34167;
+            transition: 0.1s ease;
+            cursor: pointer;
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #b34167;
+            background: #ffa5bb;
+        }
+        
+        .playful-message {
+            font-size: 1.8rem;
+            color: #a55576;
+            background: rgba(255, 215, 225, 0.8);
+            padding: 15px;
+            border-radius: 40px;
+            margin: 20px 0 0;
+            font-family: 'Dancing Script', cursive;
+            backdrop-filter: blur(4px);
+        }
+        
+        .final-popup {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: radial-gradient(circle at center, #ff90a5, #ff6b8b);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: glowPop 0.8s;
+        }
+        
+        @keyframes glowPop {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .love-message {
+            font-size: 5.5rem;
+            font-family: 'Dancing Script', cursive;
+            color: #fff0f3;
+            text-shadow: 0 0 30px #ff3060, 0 0 15px #ff9eb5;
+            margin-bottom: 20px;
+            animation: heartbeat 1.2s infinite;
+            z-index: 20001;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 20px;
+            background: #ff8fb1;
+            opacity: 0.8;
+            top: -20px;
+            animation: confettiFall 2s linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .hide-intro {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .romantic-intro-hidden {
+            display: none !important;
+        }
+        
+        @media (max-width: 550px) {
+            .question-text { font-size: 1.8rem; }
+            .answer-text { font-size: 2rem; }
+            .btn-romantic { padding: 12px 25px; font-size: 1.3rem; }
+            .love-message { font-size: 3.5rem; }
+        }
+        
+        /* Ensure original content is visible when needed */
+        .choice-container {
+            display: none;
+        }
+        
+        .choice-container.visible {
+            display: block !important;
+        }
+    </style>
+</head>
+<body class="page-blur final-page">
+    <div class="dreamy-overlay"></div>
+
+    <!-- 🌸 ROMANTIC QUESTION SECTION – INSERTED BEFORE CHOICE CONTAINER 🌸 -->
+    <div class="romantic-intro" id="romanticIntro">
+        <div class="floating-hearts-bg" id="heartBg"></div>
+        <div class="question-wrapper" id="questionCard">
+            <!-- dynamic content -->
+        </div>
+    </div>
+
+    <!-- ORIGINAL CONTENT – EXACTLY AS PROVIDED, MESSAGES UNTOUCHED -->
+    <div class="content dreamy-content choice-container" id="choiceContainer">
+        <div class="bubu-dudu-container">
+            <img src="gifs/bubu-final.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy" onerror="this.src='gifs/bubu1.gif'">
+        </div>
+        
+        <h1 class="choice-title">
+            Jo bhi ho… <span style="color: #ff6b9d;">apki marzi</span>
+        </h1>
+        
+        <p class="intro-text dreamy-text center-text" style="margin-bottom: 40px;">
+            <i class="fas fa-hand-holding-heart"></i> Whatever you decide, I'll respect it. Your happiness matters most. 💖
+        </p>
+        
+        <div class="choice-buttons">
+            <button class="choice-btn" data-choice="time" onclick="handleChoice('time')">
+                <i class="fas fa-clock"></i>
+                <span>Mujhe thoda time chahiye</span>
+            </button>
+            
+            <button class="choice-btn" data-choice="talk" onclick="handleChoice('talk')">
+                <i class="fas fa-comments"></i>
+                <span>Hum baat kar sakte hain</span>
+            </button>
+        </div>
+        
+        <p class="dreamy-text center-text" style="margin-top: 30px; font-style: italic; color: #7d6b9d;">
+            <i class="fas fa-heart"></i> No pressure, no guilt. Just honest feelings and respect.
+        </p>
+    </div>
+    
+    <div class="content dreamy-content confirmation-message" id="confirmationMessage" style="display: none;">
+        <div class="confirmation-icon">
+            <i class="fas fa-heart-circle-check"></i>
+        </div>
+        
+        <h2 class="choice-title" style="color: #ff6b9d;">
+            Thank you for being honest 🤍
+        </h2>
+        
+        <p class="intro-text dreamy-text" style="margin: 30px 0; font-size: 1.6rem;">
+            Your response has been noted with respect and understanding.<br>
+            Whatever path you choose, I wish you nothing but happiness. 🌟
+        </p>
+        
+        <div class="signature dreamy-signature" style="margin-top: 40px;">
+            — With sincere respect, Always 🤍
+        </div>
+        
+<div class="section-navigation" style="margin-top: 40px;">
+    <a href="videos.html" class="section-nav-btn dreamy-btn">
+        <i class="fas fa-video"></i> Watch Videos
+    </a>
+    <a href="index.html" class="section-nav-btn dreamy-btn">
+        <i class="fas fa-home"></i> Return to Beginning
+    </a>
+</div>
+    </div>
+    
+    <script>
+        const questions = [
+            {
+                q: "Apko padhne ka shauk hai 📖✨",
+                yesAns: "Mere saath nikah padhlo 💍🤍"
+            },
+            {
+                q: "Apko likhne ka shauk hai ✍️💌",
+                yesAns: "Apne naam ke saath mera naam likhlo 💞📝"
+            },
+            {
+                q: "Apko dekhne ka shauk hai 👀🌸",
+                yesAns: "Mere saath jawani se budhapa dekhlo 👵👴💖"
+            },
+            {
+                q: "Apko samajhne ka shauk hai 🧠💫",
+                yesAns: "Mere se accha nahi milega samjhlo 😌❤️"
+            }
+        ];
+
+        let currentIndex = 0;
+        let romanticIntro = document.getElementById('romanticIntro');
+        let questionCard = document.getElementById('questionCard');
+        let choiceContainer = document.getElementById('choiceContainer');
+        let confirmationMessage = document.getElementById('confirmationMessage');
+
+        // Ensure romantic intro is visible, original content hidden
+        romanticIntro.style.display = 'flex';
+        choiceContainer.style.display = 'none';
+        confirmationMessage.style.display = 'none';
+        
+        // Remove blur
+        document.body.classList.remove('page-blur');
+        document.body.classList.add('page-clear');
+
+        // Floating hearts background
+        function generateHearts() {
+            const bg = document.getElementById('heartBg');
+            bg.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('i');
+                heart.className = 'fas fa-heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 30 + 15) + 'px';
+                heart.style.color = `rgba(255, ${Math.floor(100 + Math.random() * 100)}, ${Math.floor(150 + Math.random() * 100)}, 0.3)`;
+                bg.appendChild(heart);
+            }
+        }
+        generateHearts();
+
+        // Render current question
+        function renderQuestion() {
+            if (currentIndex >= questions.length) {
+                showFinalLovePopup();
+                return;
+            }
+            const q = questions[currentIndex];
+            let html = `<div class="question-text">${q.q}</div>`;
+            html += `<div class="btn-group" id="yesNoGroup">
+                        <button class="btn-romantic" id="yesBtn"><i class="fas fa-heart"></i> Yes 💖</button>
+                        <button class="btn-romantic" id="noBtn"><i class="fas fa-heart-broken"></i> No 🙈</button>
+                    </div>`;
+            html += `<div id="answerContainer" style="min-height:120px;"></div>`;
+            questionCard.innerHTML = html;
+
+            document.getElementById('yesBtn').addEventListener('click', function() {
+                showAnswer(true);
+            });
+            
+            document.getElementById('noBtn').addEventListener('click', function() {
+                showAnswer(false);
+            });
+        }
+
+        function showAnswer(isYes) {
+            const q = questions[currentIndex];
+            const ansDiv = document.getElementById('answerContainer');
+            
+            if (isYes) {
+                ansDiv.innerHTML = `<div class="answer-text">${q.yesAns}</div>
+                                    <button class="btn-romantic btn-next" id="nextBtn">Next ➜</button>`;
+                document.getElementById('nextBtn').addEventListener('click', function() {
+                    currentIndex++;
+                    renderQuestion();
+                });
+                document.getElementById('yesNoGroup').style.display = 'none';
+            } else {
+                if (!document.getElementById('playfulMsg')) {
+                    let msgDiv = document.createElement('div');
+                    msgDiv.id = 'playfulMsg';
+                    msgDiv.className = 'playful-message';
+                    msgDiv.innerHTML = 'Soch lo 😌 dobara mauka nahi milega 💕';
+                    ansDiv.appendChild(msgDiv);
+                    
+                    setTimeout(() => {
+                        if (msgDiv.parentNode) {
+                            msgDiv.remove();
+                        }
+                    }, 3000);
+                }
+            }
+        }
+
+        // Final love popup
+        function showFinalLovePopup() {
+            // Clear the question card and show fullscreen love popup
+            questionCard.style.display = 'none';
+            
+            // Create popup directly in romanticIntro
+            romanticIntro.innerHTML = '';
+            romanticIntro.style.background = 'radial-gradient(circle at center, #ff90a5, #ff6b8b)';
+            romanticIntro.style.opacity = '1';
+            romanticIntro.style.visibility = 'visible';
+
+            const popupDiv = document.createElement('div');
+            popupDiv.className = 'final-popup';
+            
+            // Confetti
+            const confettiLayer = document.createElement('div');
+            confettiLayer.className = 'confetti-layer';
+            for (let i = 0; i < 70; i++) {
+                let conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + '%';
+                conf.style.animationDelay = Math.random() * 1.5 + 's';
+                conf.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+                conf.style.background = `hsl(${Math.random() * 60 + 320}, 80%, 70%)`;
+                conf.style.width = Math.random() * 15 + 5 + 'px';
+                conf.style.height = Math.random() * 25 + 10 + 'px';
+                confettiLayer.appendChild(conf);
+            }
+            
+            const loveMsg = document.createElement('div');
+            loveMsg.className = 'love-message';
+            loveMsg.innerHTML = 'I LOVE YOU ❤️✨';
+            
+            const floatingHearts = document.createElement('div');
+            floatingHearts.className = 'floating-hearts-bg';
+            floatingHearts.style.position = 'absolute';
+            for (let i = 0; i < 25; i++) {
+                let h = document.createElement('i');
+                h.className = 'fas fa-heart';
+                h.style.left = Math.random() * 100 + '%';
+                h.style.animation = `floatHeart ${Math.random() * 8 + 5}s infinite`;
+                h.style.color = `rgba(255,255,255,0.6)`;
+                h.style.fontSize = Math.random() * 40 + 15 + 'px';
+                floatingHearts.appendChild(h);
+            }
+
+            popupDiv.appendChild(confettiLayer);
+            popupDiv.appendChild(floatingHearts);
+            popupDiv.appendChild(loveMsg);
+            romanticIntro.appendChild(popupDiv);
+
+            // After romantic section, hide intro completely and show original content
+            setTimeout(() => {
+                // Hide romantic intro completely
+                romanticIntro.style.display = 'none';
+                romanticIntro.classList.add('romantic-intro-hidden');
+                
+                // Show original content
+                choiceContainer.style.display = 'block';
+                
+                // Smooth scroll to choice container
+                choiceContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 4000);
+        }
+
+        // Start romantic journey
+        renderQuestion();
+
+        // ------------- ORIGINAL CODE – PRESERVED EXACTLY, NO MODIFICATIONS -------------
+        // Remove blur effect
+        setTimeout(() => {
+            document.body.classList.remove('page-blur');
+            document.body.classList.add('page-clear');
+        }, 500);
+        
+        // Configuration - Choose your preferred method
+        const CONFIG = {
+            // METHOD 1: WhatsApp (uncomment to use)
+            method: 'whatsapp',
+            phoneNumber: '+917019670262', // Replace with your number
+            
+            // METHOD 2: Email (uncomment to use)
+            // method: 'email',
+            // email: 'your-email@example.com',
+            
+            // METHOD 3: Google Form (uncomment to use)
+            // method: 'googleForm',
+            // formId: 'YOUR_GOOGLE_FORM_ID',
+            
+            // METHOD 4: Webhook (uncomment to use)
+            // method: 'webhook',
+            // webhookUrl: 'https://your-webhook-url.com/endpoint',
+            
+            // Common settings
+            page: 'final',
+            timestamp: new Date().toISOString()
+        };
+        
+        function handleChoice(choice) {
+            const choiceText = choice === 'time' ? 
+                "Mujhe thoda time chahiye" : 
+                "Hum baat kar sakte hain";
+            
+            // Create payload
+            const payload = {
+                selected_option: choiceText,
+                timestamp: CONFIG.timestamp,
+                page: CONFIG.page,
+                user_agent: navigator.userAgent
+            };
+            
+            // Send based on selected method
+            sendResponse(CONFIG.method, payload, choiceText);
+            
+            // Show confirmation
+            document.getElementById('choiceContainer').style.display = 'none';
+            document.getElementById('confirmationMessage').style.display = 'block';
+        }
+        
+        function sendResponse(method, payload, choiceText) {
+            switch(method) {
+                case 'whatsapp':
+                    // Send via WhatsApp
+                    const message = encodeURIComponent(
+                        `Response from Emotional Confession:\n\n` +
+                        `Selected Option: ${choiceText}\n` +
+                        `Time: ${new Date().toLocaleString()}\n\n` +
+                        `This response was sent automatically from the website.`
+                    );
+                    window.open(`https://wa.me/${CONFIG.phoneNumber}?text=${message}`, '_blank');
+                    break;
+                    
+                case 'email':
+                    // Send via Email
+                    const subject = encodeURIComponent('Response from Emotional Confession');
+                    const body = encodeURIComponent(
+                        `Selected Option: ${choiceText}\n` +
+                        `Time: ${payload.timestamp}\n` +
+                        `Page: ${payload.page}\n\n` +
+                        `This response was sent automatically from the website.`
+                    );
+                    window.location.href = `mailto:${CONFIG.email}?subject=${subject}&body=${body}`;
+                    break;
+                    
+                case 'googleForm':
+                    // Note: This requires a Google Form with pre-filled fields
+                    // You'll need to set up the form first and get the prefill URL
+                    alert('Google Form method selected. Please configure your form URL.');
+                    console.log('Payload for Google Form:', payload);
+                    break;
+                    
+                case 'webhook':
+                    // Send via Fetch API to webhook
+                    fetch(CONFIG.webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                    .then(response => {
+                        console.log('Webhook response:', response);
+                    })
+                    .catch(error => {
+                        console.error('Webhook error:', error);
+                    });
+                    break;
+                    
+                default:
+                    // Fallback: Log to console
+                    console.log('User Choice:', payload);
+                    alert('Thank you for your response! It has been recorded.');
+            }
+            
+            // Also log to console for debugging
+            console.log('Sending response:', {
+                method: method,
+                payload: payload
+            });
+        }
+        
+        // Fallback for browsers that block popups
+        window.addEventListener('beforeunload', function() {
+            // Save to localStorage as backup
+            const lastChoice = localStorage.getItem('lastChoice');
+            if (lastChoice) {
+                localStorage.setItem('lastChoiceBackup', lastChoice);
+            }
+        });
+    </script>
+</body>
+</html>

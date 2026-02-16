@@ -1,0 +1,2814 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+    background: linear-gradient(135deg, 
+        #f9e7ff 0%, 
+        #e6d4ff 25%, 
+        #d4c2ff 50%, 
+        #c2afff 75%, 
+        #af9dff 100%);
+    color: #5a3d5c;
+    line-height: 1.8;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== BLUR TRANSITIONS ========== */
+.page-blur {
+    filter: blur(5px);
+    transition: filter 1.5s ease;
+}
+
+.page-clear {
+    filter: blur(0);
+}
+
+/* ========== MAIN CONTAINER ========== */
+#mainContainer {
+    width: 800vw;
+    height: 100vh;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(0);
+}
+
+/* ========== SECTIONS ========== */
+.section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.section.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dreamy-section {
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    position: relative;
+    overflow: hidden;
+}
+
+.dreamy-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(255,182,193,0.1), 
+        rgba(216,191,216,0.1), 
+        rgba(173,216,230,0.1));
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ========== BACKGROUND GIFS ========== */
+.gif-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.section-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+    filter: brightness(1.2) saturate(0.8);
+    transition: opacity 0.5s ease;
+}
+
+/* ========== BUBU & DUDU CHARACTERS ========== */
+.bubu-dudu-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: -90px auto 20px auto;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubu-dudu-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(157, 123, 255, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bubu-dudu-gif:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(157, 123, 255, 0.4);
+}
+
+/* ========== CONTENT CONTAINERS ========== */
+.dreamy-content {
+    max-width: 900px;
+    width: 90%;
+    min-height: 60vh;
+    text-align: center;
+    z-index: 1;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(106, 90, 205, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow-y: auto;
+    max-height: 85vh;
+    margin-top: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Custom Scrollbar */
+.dreamy-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dreamy-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.dreamy-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    border-radius: 10px;
+}
+
+.dreamy-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff8ab0, #8e6bff);
+}
+
+/* ========== TYPOGRAPHY ========== */
+.main-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    line-height: 1.3;
+    margin-top: 0;
+}
+
+.dreamy-title {
+    background: linear-gradient(135deg, #ff6b9d, #9d7bff, #678cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: block;
+    margin-bottom: 20px;
+    background-size: 200% auto;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    line-height: 1.3;
+    padding: 0 20px;
+    margin-top: 0;
+}
+
+.intro-text {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    color: #5a3d5c;
+    font-weight: 500;
+    padding: 0 20px;
+}
+
+.dreamy-text {
+    color: #5a3d5c;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.title-words {
+    display: inline-block;
+}
+
+.word {
+    display: inline-block;
+    margin-right: 10px;
+    opacity: 0;
+    animation: wordFadeIn 0.8s ease forwards;
+}
+
+.word:nth-child(1) { animation-delay: 0.1s; }
+.word:nth-child(2) { animation-delay: 0.3s; }
+.word:nth-child(3) { animation-delay: 0.5s; }
+.word:nth-child(4) { animation-delay: 0.7s; }
+.word:nth-child(5) { animation-delay: 0.9s; }
+.word:nth-child(6) { animation-delay: 1.1s; }
+
+@keyframes wordFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== BUTTONS ========== */
+.dreamy-btn {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 3px 8px rgba(157, 123, 255, 0.2);
+    text-decoration: none;
+    min-width: 120px;
+}
+
+.dreamy-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ff8ab0, #8e6bff);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(157, 123, 255, 0.3);
+}
+
+.dreamy-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(157, 123, 255, 0.2);
+}
+
+.dreamy-btn:disabled {
+    background: linear-gradient(135deg, #cccccc, #dddddd);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none !important;
+}
+
+.cta-btn {
+    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+    color: white;
+    border: none;
+    padding: 20px 45px;
+    font-size: 1.4rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(255,107,157,0.2);
+    margin: 25px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cta-btn:hover {
+    background: linear-gradient(135deg, #ff5a8c, #ff7a9d);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,107,157,0.3);
+}
+
+.cta-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255,107,157,0.2);
+}
+
+/* ========== NAVIGATION CONTROLS ========== */
+.nav-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 30px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.nav-btn {
+    min-width: 140px;
+}
+
+/* ========== PROGRESS BAR ========== */
+.progress-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 700px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.progress-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #ff9ec0, #9d7bff, #678cff);
+    border-radius: 3px;
+    width: 14.28%;
+    transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-dots {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.progress-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,158,192,0.2), rgba(157,123,255,0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #9d7bff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.progress-dot:hover {
+    background: linear-gradient(135deg, rgba(255,158,192,0.3), rgba(157,123,255,0.3));
+    transform: scale(1.1);
+}
+
+.progress-dot.active {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px rgba(157, 123, 255, 0.3);
+    border-color: white;
+}
+
+.progress-dot.active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #ff9ec0;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ========== MUSIC CONTROL ========== */
+.music-control {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+}
+
+.music-btn {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(157, 123, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    background: linear-gradient(135deg, #ff8ab0, #8e6bff);
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(157, 123, 255, 0.3);
+}
+
+.music-btn:active {
+    transform: scale(1);
+}
+
+/* ========== MUSIC NOTE ========== */
+.music-note {
+    margin-top: 25px;
+    color: #9d7bff;
+    font-size: 1.1rem;
+    font-style: italic;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* ========== SECTION NAVIGATION ========== */
+.section-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.section-nav-btn {
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    color: #9d7bff;
+    border: 2px solid rgba(157,123,255,0.3);
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 140px;
+    text-decoration: none;
+}
+
+.section-nav-btn:hover {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.restart-btn {
+    background: linear-gradient(135deg, rgba(147,196,125,0.1), rgba(125,196,147,0.1));
+    border-color: rgba(147,196,125,0.3);
+    color: #93c47d;
+}
+
+.restart-btn:hover {
+    background: linear-gradient(135deg, #93c47d, #7dc493);
+    color: white;
+    border-color: transparent;
+}
+
+/* ========== TEXT BOXES ========== */
+.dreamy-text-box {
+    text-align: left;
+    font-size: 1.4rem;
+    line-height: 1.9;
+    padding: 25px 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    border-left: 5px solid #ff9ec0;
+    margin: 20px 0;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.dreamy-text-box:hover {
+    transform: translateY(-2px);
+}
+
+.dreamy-paragraph {
+    margin-bottom: 25px;
+    padding-left: 10px;
+    color: #5a3d5c;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.dreamy-paragraph i {
+    color: #ff9ec0;
+    margin-top: 3px;
+    font-size: 1.2rem;
+    min-width: 25px;
+    flex-shrink: 0;
+}
+
+/* ========== TYPEWRITER EFFECT ========== */
+.dreamy-typewriter {
+    min-height: 200px;
+    text-align: left;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border-left: 5px solid #9d7bff;
+    width: 100%;
+}
+
+.typewriter-text {
+    font-size: 1.5rem;
+    color: #5a3d5c;
+    line-height: 1.9;
+    min-height: 140px;
+    font-family: 'Cormorant Garamond', serif;
+    white-space: pre-wrap;
+}
+
+.typing-cursor {
+    display: inline-block;
+    font-weight: bold;
+    color: #ff9ec0;
+    animation: blink 1s infinite;
+    margin-left: 5px;
+    font-size: 1.5rem;
+    line-height: 1.9;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ========== CONFESSION TEXT ========== */
+.confession-text {
+    font-size: 1.4rem;
+    line-height: 1.9;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.confession-text p {
+    margin-bottom: 20px;
+    color: #5a3d5c;
+    padding-left: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.confession-text i {
+    color: #ff9ec0;
+    margin-top: 3px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* ========== CARDS CONTAINER ========== */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.dreamy-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 280px;
+    min-height: 280px;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dreamy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dreamy-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(157, 123, 255, 0.2);
+}
+
+.dreamy-card:hover::before {
+    opacity: 1;
+}
+
+.card-icon {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.dreamy-icon {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: block;
+}
+
+.card-title {
+    font-size: 1.7rem;
+    color: #7d6b9d;
+    margin-bottom: 15px;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.dreamy-card-title {
+    background: linear-gradient(135deg, #ff6b9d, #9d7bff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.card-text {
+    font-size: 1.2rem;
+    color: #5a3d5c;
+    line-height: 1.6;
+    text-align: center;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== HIGHLIGHT BOX ========== */
+.dreamy-highlight {
+    background: linear-gradient(135deg, rgba(255,158,192,0.15), rgba(157,123,255,0.15));
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
+    font-weight: 700;
+    color: #5a3d5c;
+    border-left: 5px solid #9d7bff;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.dreamy-highlight:hover {
+    transform: translateX(5px);
+}
+
+.dreamy-highlight i {
+    margin-right: 15px;
+    color: #ff9ec0;
+}
+
+/* ========== FREEDOM TEXT ========== */
+.center-text {
+    text-align: center;
+}
+
+.freedom-text {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    color: #5a3d5c;
+    line-height: 1.9;
+    padding: 0 20px;
+}
+
+/* ========== FINAL MESSAGE ========== */
+.final-message {
+    padding: 30px;
+    width: 100%;
+}
+
+.final-text {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #5a3d5c;
+    line-height: 1.9;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.final-text i {
+    color: #ff9ec0;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    margin-top: 40px;
+    line-height: 1.3;
+    display: block;
+}
+
+.dreamy-signature {
+    background: linear-gradient(135deg, #ff6b9d, #9d7bff, #678cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+.heart {
+    display: inline-block;
+    opacity: 0.9;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* ========== VOICE NOTE SECTION ========== */
+.voice-note-container {
+    width: 100%;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.voice-icon {
+    color: #ff9ec0;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.audio-player {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(157, 123, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.5s ease;
+}
+
+.audio-player.hidden {
+    display: none;
+}
+
+.audio-player.show {
+    display: block;
+    animation: slideInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Waveform Animation */
+.waveform {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 60px;
+    margin-bottom: 20px;
+    gap: 4px;
+}
+
+.wave-bar {
+    width: 8px;
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    border-radius: 4px;
+    animation: wave 1.5s ease-in-out infinite;
+    animation-play-state: paused;
+}
+
+.wave-bar:nth-child(1) { height: 20px; animation-delay: 0.1s; }
+.wave-bar:nth-child(2) { height: 40px; animation-delay: 0.2s; }
+.wave-bar:nth-child(3) { height: 60px; animation-delay: 0.3s; }
+.wave-bar:nth-child(4) { height: 40px; animation-delay: 0.4s; }
+.wave-bar:nth-child(5) { height: 20px; animation-delay: 0.5s; }
+.wave-bar:nth-child(6) { height: 40px; animation-delay: 0.6s; }
+.wave-bar:nth-child(7) { height: 60px; animation-delay: 0.7s; }
+.wave-bar:nth-child(8) { height: 40px; animation-delay: 0.8s; }
+
+@keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+}
+
+.audio-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.audio-btn {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.audio-btn:hover {
+    background: linear-gradient(135deg, #ff8ab0, #8e6bff);
+    transform: scale(1.1);
+}
+
+.audio-btn:active {
+    transform: scale(1);
+}
+
+.time-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #5a3d5c;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* ========== NEXT PAGES LINKS ========== */
+.next-pages-links {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    border-left: 5px solid #9d7bff;
+    transition: transform 0.3s ease;
+}
+
+.next-pages-links:hover {
+    transform: translateY(-2px);
+}
+
+.page-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.page-link-btn {
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    color: #9d7bff;
+    border: 2px solid rgba(157,123,255,0.3);
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.page-link-btn:hover {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* ========== MEMORY PAGE STYLES ========== */
+.memory-timeline {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.memory-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(5px);
+    transition: all 0.8s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.memory-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.memory-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.memory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(157, 123, 255, 0.2);
+}
+
+.memory-card:hover::before {
+    opacity: 1;
+}
+
+.memory-icon {
+    font-size: 2.5rem;
+    color: #ff9ec0;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.memory-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: #9d7bff;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.memory-text {
+    font-size: 1.4rem;
+    color: #5a3d5c;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.memory-heart {
+    color: #ff6b9d;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    animation: heartbeat 1.5s infinite;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+/* ========== SONGS PAGE STYLES ========== */
+.songs-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.song-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.song-card:nth-child(1) { animation-delay: 0.1s; }
+.song-card:nth-child(2) { animation-delay: 0.2s; }
+.song-card:nth-child(3) { animation-delay: 0.3s; }
+.song-card:nth-child(4) { animation-delay: 0.4s; }
+.song-card:nth-child(5) { animation-delay: 0.5s; }
+.song-card:nth-child(6) { animation-delay: 0.6s; }
+.song-card:nth-child(7) { animation-delay: 0.7s; }
+.song-card:nth-child(8) { animation-delay: 0.8s; }
+.song-card:nth-child(9) { animation-delay: 0.9s; }
+.song-card:nth-child(10) { animation-delay: 1s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.song-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(157, 123, 255, 0.2);
+}
+
+.song-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.song-info {
+    flex: 1;
+}
+
+.song-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: #9d7bff;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.song-artist {
+    font-size: 1.2rem;
+    color: #7d6b9d;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.song-year {
+    font-size: 1rem;
+    color: #ff9ec0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.song-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.play-btn {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(157, 123, 255, 0.2);
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(157, 123, 255, 0.3);
+}
+
+.play-btn.playing {
+    background: linear-gradient(135deg, #ff6b9d, #8e6bff);
+}
+
+.song-description {
+    font-size: 1.3rem;
+    color: #5a3d5c;
+    line-height: 1.6;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(157, 123, 255, 0.2);
+}
+
+.audio-player-container {
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
+}
+
+.audio-player-container.active {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.song-progress-container {
+    width: 100%;
+    height: 5px;
+    background: rgba(157, 123, 255, 0.2);
+    border-radius: 2.5px;
+    margin: 10px 0;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.song-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff9ec0, #9d7bff);
+    width: 0%;
+    border-radius: 2.5px;
+    transition: width 0.1s linear;
+}
+
+.song-time-display {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: #7d6b9d;
+    margin-top: 5px;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: #9d7bff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-btn:hover {
+    background: rgba(157, 123, 255, 0.1);
+    color: #ff9ec0;
+    transform: scale(1.1);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 4px;
+    background: rgba(157, 123, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #9d7bff;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Now Playing Bar */
+.now-playing {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 50px;
+    box-shadow: 0 5px 20px rgba(106, 90, 205, 0.2);
+    display: none;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.now-playing.show {
+    display: flex;
+}
+
+.now-playing-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #9d7bff;
+}
+
+.close-player {
+    background: none;
+    border: none;
+    color: #ff9ec0;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-player:hover {
+    background: rgba(255, 158, 192, 0.1);
+}
+
+/* ========== BREATHE PAGE STYLES ========== */
+.breathe-container {
+    text-align: center;
+    padding: 40px;
+}
+
+.breathing-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: breathe 5s infinite ease-in-out;
+    box-shadow: 
+        0 0 20px rgba(255, 158, 192, 0.5),
+        0 0 40px rgba(157, 123, 255, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.breathing-circle::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(255,255,255,0.1) 100%);
+    border-radius: 50%;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(0.8);
+        opacity: 0.7;
+        box-shadow: 
+            0 0 10px rgba(255, 158, 192, 0.3),
+            0 0 20px rgba(157, 123, 255, 0.2),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+        box-shadow: 
+            0 0 30px rgba(255, 158, 192, 0.7),
+            0 0 60px rgba(157, 123, 255, 0.5),
+            inset 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.breathing-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: white;
+    margin-top: 30px;
+    animation: textPulse 2s infinite;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes textPulse {
+    0%, 100% { 
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.breathing-instruction {
+    font-size: 1.8rem;
+    color: #5a3d5c;
+    margin: 20px 0;
+    min-height: 60px;
+    transition: opacity 0.5s ease;
+}
+
+.continue-btn {
+    margin-top: 40px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transform: translateY(10px);
+}
+
+.continue-btn.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========== FINAL CHOICE PAGE ========== */
+.choice-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.choice-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: #9d7bff;
+    margin-bottom: 50px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.choice-btn {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
+    border: 2px solid rgba(157,123,255,0.3);
+    padding: 25px 30px;
+    font-size: 1.4rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: #5a3d5c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.choice-btn:hover {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(157, 123, 255, 0.2);
+}
+
+.choice-btn:hover::before {
+    opacity: 1;
+}
+
+.choice-btn i {
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+}
+
+.choice-btn:hover i {
+    transform: scale(1.2);
+}
+
+/* Confirmation Message */
+.confirmation-message {
+    text-align: center;
+    padding: 40px;
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirmation-icon {
+    font-size: 5rem;
+    color: #ff9ec0;
+    margin-bottom: 20px;
+    animation: heartbeat 1.5s infinite;
+}
+
+/* ========== FIX FOR PAGES DISPLAYING TOO HIGH ========== */
+/* This fixes the issue where content is pushed up too high */
+body.songs-page .bubu-dudu-container,
+body.breathe-page .bubu-dudu-container,
+body.memory-page .bubu-dudu-container,
+body.final-page .bubu-dudu-container {
+    margin-top: 20px !important;
+    margin-bottom: 30px !important;
+}
+
+/* Also adjust the content containers for these pages */
+body.songs-page .dreamy-content,
+body.breathe-page .dreamy-content,
+body.memory-page .dreamy-content,
+body.final-page .dreamy-content {
+    margin-top: 20px;
+    max-height: 75vh;
+}
+
+/* Make sure the main title doesn't get cut off */
+body.songs-page .main-title,
+body.breathe-page .main-title,
+body.memory-page .main-title,
+body.final-page .choice-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Adjust padding for better spacing */
+body.songs-page .dreamy-content,
+body.breathe-page .dreamy-content,
+body.memory-page .dreamy-content,
+body.final-page .dreamy-content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/* Ensure content is properly centered vertically */
+body.songs-page,
+body.breathe-page,
+body.memory-page,
+body.final-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .main-title {
+        font-size: 4rem;
+    }
+    
+    .section-title {
+        font-size: 3rem;
+    }
+    
+    .intro-text, .final-text {
+        font-size: 1.6rem;
+    }
+    
+    .dreamy-content {
+        padding: 40px 20px;
+        max-height: 80vh;
+    }
+    
+    .bubu-dudu-container {
+        width: 160px;
+        height: 160px;
+        margin: -80px auto 20px auto;
+    }
+    
+    /* Fix for tablet view */
+    body.songs-page .bubu-dudu-container,
+    body.breathe-page .bubu-dudu-container,
+    body.memory-page .bubu-dudu-container,
+    body.final-page .bubu-dudu-container {
+        margin-top: 10px !important;
+    }
+    
+    .song-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .song-controls {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 3.2rem;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .intro-text, .final-text, .dreamy-text {
+        font-size: 1.4rem;
+    }
+    
+    .dreamy-content {
+        padding: 40px 15px;
+        width: 95%;
+        max-height: 75vh;
+    }
+    
+    .bubu-dudu-container {
+        width: 140px;
+        height: 140px;
+        margin: -70px auto 15px auto;
+    }
+    
+    /* Fix for mobile view */
+    body.songs-page .bubu-dudu-container,
+    body.breathe-page .bubu-dudu-container,
+    body.memory-page .bubu-dudu-container,
+    body.final-page .bubu-dudu-container {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    body.songs-page .dreamy-content,
+    body.breathe-page .dreamy-content,
+    body.memory-page .dreamy-content,
+    body.final-page .dreamy-content {
+        margin-top: 10px;
+        max-height: 70vh;
+    }
+    
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .dreamy-card {
+        width: 100%;
+        max-width: 320px;
+        min-height: 250px;
+        padding: 25px 15px;
+    }
+    
+    .nav-controls {
+        width: 95%;
+        padding: 12px 20px;
+        bottom: 20px;
+    }
+    
+    .dreamy-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .progress-container {
+        width: 95%;
+        padding: 10px 20px;
+        top: 10px;
+    }
+    
+    .progress-dot {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .music-control {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .music-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .section-navigation {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .section-nav-btn {
+        width: 200px;
+        justify-content: center;
+    }
+    
+    .dreamy-typewriter, .dreamy-text-box, .confession-text {
+        padding: 20px;
+    }
+    
+    .typewriter-text {
+        font-size: 1.3rem;
+        min-height: 120px;
+    }
+    
+    .freedom-text, .dreamy-paragraph, .card-text {
+        font-size: 1.2rem;
+    }
+    
+    .signature {
+        font-size: 2.8rem;
+    }
+    
+    .dreamy-highlight {
+        padding: 20px;
+        font-size: 1.2rem;
+    }
+    
+    .choice-buttons {
+        gap: 15px;
+    }
+    
+    .choice-btn {
+        padding: 20px;
+        font-size: 1.2rem;
+    }
+    
+    .breathing-circle {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .breathing-text {
+        font-size: 2.5rem;
+    }
+    
+    .page-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .page-link-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .progress-dots {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .progress-dot {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .now-playing {
+        width: 90%;
+        padding: 12px 20px;
+        bottom: 120px;
+    }
+    
+    .now-playing-text {
+        font-size: 1.2rem;
+    }
+    
+    .song-title {
+        font-size: 1.8rem;
+    }
+    
+    .song-description {
+        font-size: 1.1rem;
+    }
+    
+    .player-controls {
+        gap: 15px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2.8rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .cta-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .progress-dots {
+        display: none;
+    }
+    
+    .dreamy-content {
+        padding: 40px 15px;
+        max-height: 70vh;
+    }
+    
+    .bubu-dudu-container {
+        width: 120px;
+        height: 120px;
+        margin: -60px auto 10px auto;
+    }
+    
+    /* Additional fix for very small screens */
+    body.songs-page .bubu-dudu-container,
+    body.breathe-page .bubu-dudu-container,
+    body.memory-page .bubu-dudu-container,
+    body.final-page .bubu-dudu-container {
+        margin-top: 0 !important;
+        margin-bottom: 15px !important;
+        width: 100px;
+        height: 100px;
+    }
+    
+    .intro-text, .final-text {
+        font-size: 1.3rem;
+        padding: 0 10px;
+    }
+    
+    .section-navigation {
+        gap: 10px;
+    }
+    
+    .section-nav-btn {
+        width: 180px;
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    
+    .typewriter-text {
+        font-size: 1.2rem;
+    }
+    
+    .dreamy-paragraph, .freedom-text, .card-text {
+        font-size: 1.1rem;
+    }
+    
+    .signature {
+        font-size: 2.5rem;
+    }
+    
+    .music-control {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .music-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .choice-title {
+        font-size: 2.8rem;
+    }
+    
+    .choice-btn {
+        padding: 18px 15px;
+        font-size: 1.1rem;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .breathing-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .breathing-text {
+        font-size: 2rem;
+    }
+    
+    .memory-card,
+    .song-card,
+    .voice-note-container,
+    .audio-player {
+        padding: 20px;
+    }
+    
+    .memory-text, .song-description {
+        font-size: 1.1rem;
+    }
+}
+
+/* Landscape Mode */
+@media (max-height: 600px) and (orientation: landscape) {
+    .dreamy-content {
+        max-height: 70vh;
+        padding: 20px;
+    }
+    
+    .bubu-dudu-container {
+        width: 100px;
+        height: 100px;
+        margin: -50px auto 10px auto;
+    }
+    
+    /* Landscape fix for special pages */
+    body.songs-page .bubu-dudu-container,
+    body.breathe-page .bubu-dudu-container,
+    body.memory-page .bubu-dudu-container,
+    body.final-page .bubu-dudu-container {
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+        width: 80px;
+        height: 80px;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .intro-text, .dreamy-paragraph {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    
+    .section-navigation {
+        margin-top: 20px;
+    }
+    
+    .nav-controls {
+        padding: 10px 15px;
+        bottom: 15px;
+    }
+    
+    .progress-container {
+        top: 10px;
+        padding: 8px 15px;
+    }
+    
+    .breathing-circle {
+        width: 100px;
+        height: 100px;
+        margin: 20px auto;
+    }
+    
+    .breathing-text {
+        font-size: 1.8rem;
+    }
+}
+
+/* Disable heavy animations for low-end devices */
+@media (max-width: 768px) {
+    .section {
+        transition: none !important;
+    }
+    
+    #mainContainer {
+        transition: transform 0.3s ease !important;
+    }
+    
+    .dreamy-btn:hover,
+    .section-nav-btn:hover,
+    .cta-btn:hover,
+    .music-btn:hover,
+    .choice-btn:hover {
+        transform: none !important;
+        box-shadow: inherit !important;
+    }
+    
+    .memory-card:hover,
+    .song-card:hover,
+    .dreamy-card:hover {
+        transform: none !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .nav-controls,
+    .progress-container,
+    .music-control,
+    .gif-container,
+    .dreamy-overlay {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .dreamy-content {
+        background: white !important;
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    
+    .main-title, .section-title, .dreamy-title {
+        background: none !important;
+        color: black !important;
+        text-shadow: none !important;
+        animation: none !important;
+    }
+}
+
+/* Make header text visible */
+.dreamy-title, 
+.section-title,
+.main-title {
+    color: #333 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dreamy-title .word,
+.title-words span {
+    color: rgba(51, 51, 51, 0.9) !important;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.dreamy-content {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.dreamy-title {
+    background-color: rgba(255, 255, 255, 0.7);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+/* ========== VIDEOS PAGE – CUSTOM VIDEO PLAYER (BIGGER SIZE) ========== */
+.videos-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+.videos-container .dreamy-content {
+    max-width: 1400px;
+    width: 98%;
+    padding: 40px 30px;
+}
+
+/* Video Player Card - Much Larger */
+.video-player-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 35px;
+    padding: 30px;
+    margin: 30px 0 20px;
+    box-shadow: 0 30px 60px rgba(157, 123, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.custom-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #0a0a1a;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.video-wrapper:hover .video-overlay {
+    opacity: 1;
+}
+
+.video-overlay i {
+    font-size: 7rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 20px rgba(157, 123, 255, 0.5);
+    animation: pulse 2s infinite;
+}
+
+/* Custom Controls */
+.custom-controls {
+    padding: 25px 20px 15px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0 0 25px 25px;
+    margin-top: -5px;
+    border-top: 1px solid rgba(157, 123, 255, 0.2);
+}
+
+.custom-controls .progress-container {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: rgba(157, 123, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.custom-controls .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff9ec0, #9d7bff);
+    border-radius: 10px;
+    transition: width 0.1s linear;
+    z-index: 2;
+}
+
+.progress-buffered {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: rgba(157, 123, 255, 0.3);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.custom-controls .time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    color: #5a3d5c;
+    margin-bottom: 15px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.custom-controls .player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.custom-controls .control-btn {
+    background: linear-gradient(135deg, rgba(255,158,192,0.1), rgba(157,123,255,0.1));
+    border: 2px solid rgba(157,123,255,0.3);
+    color: #9d7bff;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-controls .control-btn:hover {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    border-color: transparent;
+    transform: scale(1.1);
+}
+
+.custom-controls .play-btn {
+    background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+    color: white;
+    width: 65px;
+    height: 65px;
+    font-size: 1.8rem;
+    box-shadow: 0 5px 15px rgba(157, 123, 255, 0.3);
+}
+
+.custom-controls .play-btn:hover {
+    transform: scale(1.15);
+}
+
+.custom-controls .play-btn.playing {
+    animation: pulse 2s infinite;
+}
+
+.volume-slider-container {
+    display: inline-block;
+    width: 100px;
+    transition: width 0.3s ease;
+}
+
+.volume-slider-container input {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: rgba(157, 123, 255, 0.2);
+    border-radius: 4px;
+    outline: none;
+}
+
+.volume-slider-container input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #9d7bff;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.volume-slider-container input::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.video-counter {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #9d7bff;
+    letter-spacing: 1px;
+}
+
+/* Loading Spinner (reuse from songs page) */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(157, 123, 255, 0.2);
+    border-top-color: #9d7bff;
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive for video player */
+@media (max-width: 768px) {
+    .videos-container .dreamy-content {
+        max-width: 100%;
+        padding: 30px 20px;
+    }
+    
+    .video-player-card {
+        padding: 20px;
+    }
+    
+    .custom-controls .player-controls {
+        gap: 15px;
+    }
+    
+    .custom-controls .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .custom-controls .play-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+    }
+    
+    .volume-slider-container {
+        width: 80px;
+    }
+    
+    .video-counter {
+        font-size: 1.3rem;
+    }
+    
+    .video-overlay i {
+        font-size: 5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .videos-container .dreamy-content {
+        padding: 25px 15px;
+    }
+    
+    .video-player-card {
+        padding: 15px;
+    }
+    
+    .custom-controls .player-controls {
+        gap: 10px;
+    }
+    
+    .custom-controls .control-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    
+    .custom-controls .play-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+    
+    .volume-slider-container {
+        width: 60px;
+    }
+    
+    .video-counter {
+        font-size: 1.2rem;
+    }
+    
+    .video-overlay i {
+        font-size: 4rem;
+    }
+}
+
+/* Continue button variant */
+.continue-btn {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: white;
+    border: none;
+}
+
+.continue-btn:hover {
+    background: linear-gradient(135deg, #2bc188, #0ea37a);
+}
+
+/* ========== TIMELINE TREE STYLES ========== */
+.timeline-tree-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px 0;
+    min-height: 800px;
+}
+
+/* Center Line (Tree Trunk) */
+.timeline-center-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: linear-gradient(180deg, 
+        #8b5a2b 0%, 
+        #a0522d 30%, 
+        #8b4513 70%, 
+        #654321 100%);
+    transform: translateX(-50%);
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+    z-index: 1;
+}
+
+/* Tree knots on the center line */
+.timeline-center-line .knot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #8b4513;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #cd853f;
+    z-index: 5;
+}
+
+/* Dotted connecting line between photos */
+.timeline-connector-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        #8b4513,
+        #8b4513 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    z-index: 0;
+    opacity: 0.3;
+}
+
+/* Timeline Items Container */
+.timeline-items {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+/* Individual Timeline Item */
+.timeline-item {
+    position: relative;
+    width: 100%;
+    margin: 50px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+    clear: both;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.timeline-item:nth-child(4) { animation-delay: 0.4s; }
+.timeline-item:nth-child(5) { animation-delay: 0.5s; }
+.timeline-item:nth-child(6) { animation-delay: 0.6s; }
+.timeline-item:nth-child(7) { animation-delay: 0.7s; }
+.timeline-item:nth-child(8) { animation-delay: 0.8s; }
+.timeline-item:nth-child(9) { animation-delay: 0.9s; }
+.timeline-item:nth-child(10) { animation-delay: 1s; }
+
+/* Left side items */
+.timeline-item.left {
+    padding-right: 52%;
+    text-align: right;
+}
+
+/* Right side items */
+.timeline-item.right {
+    padding-left: 52%;
+    text-align: left;
+    margin-top: 50px;
+}
+
+/* Timeline Content */
+.timeline-content {
+    position: relative;
+    display: inline-block;
+    max-width: 280px;
+}
+
+/* Photo Frame */
+.timeline-photo-frame {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 4px solid white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.timeline-item.left .timeline-photo-frame {
+    margin-left: auto;
+}
+
+.timeline-item.right .timeline-photo-frame {
+    margin-right: auto;
+}
+
+.timeline-photo-frame:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 15px 35px rgba(157, 123, 255, 0.3);
+    border-color: #ff9ec0;
+}
+
+.timeline-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Photo Glow Effect */
+.photo-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.timeline-photo-frame:hover .photo-glow {
+    opacity: 1;
+}
+
+/* Date/Label */
+.timeline-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: #5a3d5c;
+    margin-top: 12px;
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.timeline-item.left .timeline-date {
+    margin-left: auto;
+}
+
+.timeline-item.right .timeline-date {
+    margin-right: auto;
+}
+
+.timeline-date i {
+    color: #ff9ec0;
+}
+
+/* Connector to Center Line */
+.timeline-connector {
+    position: absolute;
+    top: 100px;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #8b4513, #cd853f);
+    z-index: 5;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.timeline-item.left .timeline-connector {
+    right: calc(50% - 30px);
+    left: auto;
+}
+
+.timeline-item.right .timeline-connector {
+    left: calc(50% - 30px);
+    right: auto;
+}
+
+/* Connector Dots */
+.timeline-connector::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    background: #ffd700;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 15px #ffd700;
+    animation: pulse 2s infinite;
+}
+
+.timeline-item.left .timeline-connector::before {
+    right: -6px;
+}
+
+.timeline-item.right .timeline-connector::before {
+    left: -6px;
+}
+
+.timeline-connector::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: ripple 2s infinite;
+}
+
+.timeline-item.left .timeline-connector::after {
+    right: -10px;
+}
+
+.timeline-item.right .timeline-connector::after {
+    left: -10px;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translateY(-50%) scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Instruction Text */
+.memory-instruction {
+    text-align: center;
+    margin: 40px 0 20px;
+    padding: 20px;
+}
+
+.memory-instruction p {
+    font-size: 1.3rem;
+    color: #5a3d5c;
+    background: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.memory-instruction i {
+    color: #ff9ec0;
+    margin-right: 10px;
+    animation: handMove 2s infinite;
+}
+
+@keyframes handMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+/* ========== RESPONSIVE DESIGN FOR TIMELINE TREE ========== */
+@media (max-width: 992px) {
+    .timeline-item.left {
+        padding-right: 50%;
+    }
+    
+    .timeline-item.right {
+        padding-left: 50%;
+    }
+    
+    .timeline-photo-frame {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .timeline-center-line {
+        left: 30px;
+    }
+    
+    .timeline-connector-line {
+        left: 30px;
+    }
+    
+    .timeline-item.left,
+    .timeline-item.right {
+        padding-left: 70px;
+        padding-right: 20px;
+        text-align: left;
+    }
+    
+    .timeline-item.left .timeline-photo-frame,
+    .timeline-item.right .timeline-photo-frame {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .timeline-item.left .timeline-date,
+    .timeline-item.right .timeline-date {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .timeline-connector {
+        left: 30px !important;
+        right: auto !important;
+        width: 40px;
+        transform: none !important;
+    }
+    
+    .timeline-connector::before,
+    .timeline-connector::after {
+        left: -6px !important;
+        right: auto !important;
+    }
+    
+    .timeline-photo-frame {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .timeline-date {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-photo-frame {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .timeline-date {
+        font-size: 1rem;
+        padding: 5px 12px;
+    }
+    
+    .memory-instruction p {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}

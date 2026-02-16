@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yahan thoda ruk jao...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="page-blur breathe-page">
+    <div class="dreamy-overlay"></div>
+    
+    <div class="content dreamy-content breathe-container">
+        <div class="bubu-dudu-container">
+            <img src="gifs/bubu-breathe.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy" onerror="this.src='gifs/bubu1.gif'">
+        </div>
+        
+        <h1 class="main-title dreamy-title">
+            <span class="title-words">
+                <span class="word">Yahan</span>
+                <span class="word">Thoda</span>
+                <span class="word">Ruk</span>
+                <span class="word">Jao...</span>
+            </span>
+        </h1>
+        
+        <p class="intro-text dreamy-text center-text" style="margin-bottom: 30px;">
+            <i class="fas fa-wind"></i> Saans lo... dil ko thoda aaram do. 🌬️
+        </p>
+        
+        <div class="breathing-circle">
+            <div class="breathing-text" id="breathingText">Saans Lo</div>
+        </div>
+        
+        <div class="breathing-instruction" id="breathingInstruction">
+            Deep breath in... slowly...
+        </div>
+        
+        <div class="continue-btn" id="continueBtn">
+            <a href="final.html" class="cta-btn magic-btn" style="display: none;" id="continueLink">
+                Continue <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+<div class="section-navigation" style="margin-top: 40px;">
+    <a href="songs.html" class="section-nav-btn dreamy-btn">
+        <i class="fas fa-arrow-left"></i> Back to Songs
+    </a>
+    <a href="videos.html" class="section-nav-btn dreamy-btn">
+        <i class="fas fa-video"></i> Videos
+    </a>
+</div>
+    </div>
+    
+    <script>
+        // Remove blur effect
+        setTimeout(() => {
+            document.body.classList.remove('page-blur');
+            document.body.classList.add('page-clear');
+        }, 500);
+        
+        // Breathing animation
+        const breathingText = document.getElementById('breathingText');
+        const breathingInstruction = document.getElementById('breathingInstruction');
+        const continueBtn = document.getElementById('continueBtn');
+        const continueLink = document.getElementById('continueLink');
+        
+        const breathingCycle = [
+            { text: "Saans Bharo", instruction: "Deep breath in... slowly...", duration: 4000 },
+            { text: "Ruko", instruction: "Hold... feel the calm...", duration: 2000 },
+            { text: "Saans Chhodo", instruction: "Slowly exhale... let go...", duration: 4000 },
+            { text: "Ruko", instruction: "Pause... be present...", duration: 2000 }
+        ];
+        
+        let currentCycle = 0;
+        let totalTime = 0;
+        
+        function updateBreathing() {
+            const cycle = breathingCycle[currentCycle];
+            breathingText.textContent = cycle.text;
+            breathingInstruction.textContent = cycle.instruction;
+            
+            currentCycle = (currentCycle + 1) % breathingCycle.length;
+            totalTime += cycle.duration;
+            
+            // After 12 seconds (3 complete cycles), show continue button
+            if (totalTime >= 12000) {
+                continueLink.style.display = 'inline-block';
+                continueBtn.classList.add('show');
+            }
+            
+            setTimeout(updateBreathing, cycle.duration);
+        }
+        
+        // Start breathing cycle after a short delay
+        setTimeout(updateBreathing, 1000);
+    </script>
+</body>
+</html>

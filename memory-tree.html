@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yaadon Ki Gift Gallery 🌳 | First Right, Second Left</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* styles are identical to original — kept exactly as provided, only JS updated */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+            background: linear-gradient(135deg, 
+                #f9e7ff 0%, 
+                #e6d4ff 25%, 
+                #d4c2ff 50%, 
+                #c2afff 75%, 
+                #af9dff 100%);
+            color: #5a3d5c;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Back to Home Button */
+        .back-home-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        
+        .back-home-btn {
+            background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(157,123,255,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            z-index: 1000;
+        }
+        
+        .back-home-btn:hover {
+            background: linear-gradient(135deg, #ff8ab0, #8e6bff);
+        }
+
+        /* Header */
+        .memory-tree-header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .dreamy-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #ff6b9d, #9d7bff, #678cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .memory-tree-subtitle {
+            font-size: 1.5rem;
+            color: #5a3d5c;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* ========== TIMELINE TREE LAYOUT ========== */
+        .timeline-tree-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 30px auto 50px;
+            padding: 30px 0;
+            min-height: 1800px;
+            overflow: hidden;
+        }
+
+        /* Center Line (Tree Trunk) */
+        .timeline-center-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: linear-gradient(180deg, 
+                #8b5a2b 0%, 
+                #a0522d 30%, 
+                #8b4513 70%, 
+                #654321 100%);
+            transform: translateX(-50%);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+            z-index: 1;
+        }
+
+        /* Tree knots on the center line */
+        .timeline-center-line .knot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #8b4513;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #cd853f;
+            z-index: 5;
+        }
+
+        /* Dotted connecting line (texture) */
+        .timeline-connector-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                #8b4513,
+                #8b4513 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            z-index: 0;
+            opacity: 0.2;
+        }
+
+        /* Timeline Items Container */
+        .timeline-items {
+            position: relative;
+            width: 100%;
+            z-index: 2;
+        }
+
+        /* Individual Timeline Item */
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            margin: 50px 0;
+            clear: both;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease;
+            will-change: transform, opacity;
+        }
+
+        /* LEFT side items */
+        .timeline-item.left {
+            padding-right: 52%;
+            text-align: right;
+        }
+
+        /* RIGHT side items */
+        .timeline-item.right {
+            padding-left: 52%;
+            text-align: left;
+        }
+
+        /* Gift Card */
+        .timeline-gift {
+            position: relative;
+            display: inline-block;
+            max-width: 300px;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1), filter 0.5s ease;
+            will-change: transform, filter;
+        }
+
+        /* Smooth open effect */
+        .timeline-gift.open-effect {
+            transform: scale(1.08) rotate(1deg);
+            filter: drop-shadow(0 0 25px #ff9ec0) drop-shadow(0 0 40px #9d7bff);
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1), filter 0.6s ease;
+        }
+
+        .timeline-item.left .timeline-gift {
+            margin-left: auto;
+        }
+
+        .timeline-item.right .timeline-gift {
+            margin-right: auto;
+        }
+
+        /* Gift Box Image */
+        .gift-image {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            border: 3px solid white;
+        }
+
+        .timeline-gift:hover .gift-image {
+            transform: scale(1.08) rotate(2deg);
+            filter: drop-shadow(0 15px 25px rgba(157, 123, 255, 0.5));
+            border-color: #ff9ec0;
+        }
+
+        /* Gift Label */
+        .gift-label {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: #5a3d5c;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid white;
+        }
+
+        .timeline-item.left .gift-label {
+            margin-left: auto;
+        }
+
+        .timeline-item.right .gift-label {
+            margin-right: auto;
+        }
+
+        .gift-label i {
+            color: #ff6b9d;
+        }
+
+        /* Connector to Center Line */
+        .timeline-connector {
+            position: absolute;
+            top: 90px;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #8b4513, #cd853f);
+            z-index: 5;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .timeline-item.left .timeline-connector {
+            right: calc(50% - 25px);
+            left: auto;
+        }
+
+        .timeline-item.right .timeline-connector {
+            left: calc(50% - 25px);
+            right: auto;
+        }
+
+        .timeline-gift:hover + .timeline-connector,
+        .timeline-item:hover .timeline-connector {
+            width: 65px;
+            background: linear-gradient(90deg, #ff9ec0, #9d7bff);
+        }
+
+        /* Connector golden dot */
+        .timeline-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px #ffd700;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .timeline-item.left .timeline-connector::before {
+            right: -6px;
+        }
+
+        .timeline-item.right .timeline-connector::before {
+            left: -6px;
+        }
+
+        .timeline-gift:hover + .timeline-connector::before,
+        .timeline-item:hover .timeline-connector::before {
+            box-shadow: 0 0 20px #ff9ec0;
+        }
+
+        /* slide hidden state - smoother transitions */
+        .timeline-item.slide-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.7s ease;
+        }
+        
+        .timeline-item.slide-hidden.right {
+            transform: translateX(180px);
+        }
+        
+        .timeline-item.slide-hidden.left {
+            transform: translateX(-180px);
+        }
+
+        /* Instruction */
+        .memory-instruction {
+            text-align: center;
+            margin: 20px 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .memory-instruction p {
+            background: rgba(255, 255, 255, 0.8);
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            border: 1px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .memory-instruction i {
+            color: #ff6b9d;
+            margin-right: 8px;
+        }
+
+        /* Full Screen Modal */
+        .gift-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .gift-modal.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            animation: scaleIn 0.4s ease;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Enhanced Modal Transitions */
+        .modal-image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .modal-image {
+            width: 100%;
+            max-height: 65vh;
+            object-fit: contain;
+            border-radius: 20px;
+            background: #1a1a2e;
+            box-shadow: 0 10px 30px rgba(255, 158, 192, 0.3);
+            transition: transform 0.3s ease;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .modal-image.transition-out {
+            animation: slideOut 0.4s ease forwards;
+        }
+
+        .modal-image.transition-in {
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideOut {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateX(0);
+            }
+            30% {
+                opacity: 0.8;
+                transform: scale(0.95) translateX(-10px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9) translateX(30px);
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateX(-30px);
+            }
+            70% {
+                opacity: 0.9;
+                transform: scale(1.02) translateX(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateX(0);
+            }
+        }
+
+        .modal-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: white;
+            text-align: center;
+            margin: 25px 0 15px;
+            background: linear-gradient(135deg, #ff9ec0, #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.4;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-message.transition-out {
+            animation: messageOut 0.3s ease forwards;
+        }
+
+        .modal-message.transition-in {
+            animation: messageIn 0.4s ease forwards;
+        }
+
+        @keyframes messageOut {
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: 0.3s ease;
+            line-height: 1;
+            z-index: 10010;
+        }
+        
+        .close-modal:hover {
+            color: #ff9ec0;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .modal-hearts {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #ff9ec0;
+            letter-spacing: 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Floating hearts decoration */
+        .floating-hearts {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.2;
+            font-size: 2rem;
+            color: #ff9ec0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Auto-slide indicator with smooth pulse */
+        .auto-slide-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            color: #5a3d5c;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 1px solid #ff9ec0;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.4s ease, transform 0.3s ease;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translate(-50%, 20px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        
+        .auto-slide-indicator i {
+            color: #ff6b9d;
+            animation: gentlePulse 2s infinite ease-in-out;
+        }
+        
+        @keyframes gentlePulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+
+        /* Timer progress bar */
+        .timer-progress {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff9ec0, #9d7bff);
+            border-radius: 3px;
+            transition: width 8s linear;
+            width: 0%;
+        }
+        
+        .auto-slide-indicator .timer-progress.active {
+            width: 100%;
+        }
+
+        /* Final Message Popup Styles - New */
+        .final-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .final-popup.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .final-popup-content {
+            max-width: 600px;
+            width: 90%;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            padding: 40px 30px;
+            border-radius: 60px 20px 60px 20px;
+            text-align: center;
+            border: 3px solid #ff9ec0;
+            box-shadow: 0 20px 40px rgba(255, 158, 192, 0.3);
+            animation: scaleIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-popup-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,158,192,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .final-popup h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #ff9ec0;
+            margin-bottom: 20px;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255,158,192,0.5);
+        }
+
+        .final-popup p {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+        }
+
+        .final-popup .heart-decoration {
+            font-size: 2.5rem;
+            color: #ff9ec0;
+            margin: 20px 0;
+            letter-spacing: 10px;
+            position: relative;
+        }
+
+        .final-popup-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255,158,192,0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .final-popup-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255,158,192,0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .timeline-item.left { padding-right: 50%; }
+            .timeline-item.right { padding-left: 50%; }
+            .gift-image { width: 160px; height: 160px; }
+        }
+
+        @media (max-width: 768px) {
+            .dreamy-title { font-size: 3rem; }
+            
+            .timeline-center-line { left: 30px; }
+            .timeline-connector-line { left: 30px; }
+            
+            .timeline-item.left,
+            .timeline-item.right {
+                padding-left: 70px;
+                padding-right: 20px;
+                text-align: left;
+            }
+            
+            .timeline-item.left .timeline-gift,
+            .timeline-item.right .timeline-gift {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            .timeline-item.left .gift-label,
+            .timeline-item.right .gift-label {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            .timeline-connector {
+                left: 30px !important;
+                right: auto !important;
+                width: 40px;
+            }
+            
+            .timeline-connector::before {
+                left: -6px !important;
+                right: auto !important;
+            }
+            
+            .gift-image { width: 140px; height: 140px; }
+            .gift-label { font-size: 1.2rem; }
+            .timeline-item.slide-hidden.right { transform: translateX(100px); }
+            .timeline-item.slide-hidden.left { transform: translateX(-100px); }
+            
+            .final-popup h3 { font-size: 2.5rem; }
+            .final-popup p { font-size: 1.5rem; }
+            .final-popup-btn { font-size: 1.5rem; padding: 12px 30px; }
+        }
+
+        @media (max-width: 480px) {
+            .gift-image { width: 120px; height: 120px; }
+            .gift-label { font-size: 1rem; padding: 5px 12px; }
+            .modal-message { font-size: 1.5rem; }
+            .close-modal { font-size: 3rem; top: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music (hidden) -->
+    <audio id="bgMusic" loop style="display: none;">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Back to Home -->
+    <div class="back-home-container">
+        <a href="index.html" class="back-home-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+    </div>
+
+    <!-- Header -->
+    <main>
+        <div class="memory-tree-header">
+            <h1 class="dreamy-title">
+                Gallery 
+            </h1>
+            <p class="memory-tree-subtitle">
+                Har gift mein basa hai ek khaas ehsaas... ❤️
+            </p>
+        </div>
+
+        <!-- TIMELINE TREE CONTAINER -->
+        <div class="timeline-tree-container">
+            <!-- Center Line (Tree Trunk) -->
+            <div class="timeline-center-line">
+                <div class="knot" style="top: 8%; width: 18px; height: 18px;"></div>
+                <div class="knot" style="top: 22%; width: 22px; height: 22px;"></div>
+                <div class="knot" style="top: 38%; width: 16px; height: 16px;"></div>
+                <div class="knot" style="top: 52%; width: 20px; height: 20px;"></div>
+                <div class="knot" style="top: 68%; width: 24px; height: 24px;"></div>
+                <div class="knot" style="top: 82%; width: 18px; height: 18px;"></div>
+                <div class="knot" style="top: 95%; width: 15px; height: 15px;"></div>
+            </div>
+            
+            <!-- faint dotted line -->
+            <div class="timeline-connector-line"></div>
+            
+            <!-- Timeline Items - first RIGHT, second LEFT, alternating -->
+            <div class="timeline-items">
+                <!-- 1 RIGHT: Pehli Mulaqaat - b1.jpg -->
+                <div class="timeline-item right">
+                    <div class="timeline-gift" data-img="images/b1.jpg" data-message="Jab bhi main apki yeh photo dekhta hoon, dil automatically smile karne lagta hai 😊💖 Apki muskurahat sach mein duniya ko roshan kar deti hai ✨">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-heart"></i> Pehli Mulaqaat
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 2 LEFT: Saath Bitaya Pal - b2.jpg -->
+                <div class="timeline-item left">
+                    <div class="timeline-gift" data-img="images/b2.jpg" data-message="Is pal mein apki aankhon mein jo chamak hai na… woh mere liye sabse special memory hai 🌸💫 Apka har expression mere dil mein basa hua hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-star"></i> Saath Bitaya Pal
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 3 RIGHT: Chaandni Raat - b3.jpg -->
+                <div class="timeline-item right">
+                    <div class="timeline-gift" data-img="images/b3.jpg" data-message="Apke saath guzara hua har moment mere liye ek blessing hai 🙏💗 Apki simplicity hi apki sabse khoobsurat baat hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-moon"></i> Chaandni Raat
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 4 LEFT: Dhoop Bhari Subah - b4.jpg -->
+                <div class="timeline-item left">
+                    <div class="timeline-gift" data-img="images/b4.jpg" data-message="Jab bhi life thodi mushkil lagti hai, main apki yeh tasveer dekh leta hoon… aur sab theek sa lagne lagta hai 🌷💞 Apka hona hi sukoon hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-sun"></i> Dhoop Bhari Subah
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 5 RIGHT: Chai Ki Charcha - b5.jpg -->
+                <div class="timeline-item right">
+                    <div class="timeline-gift" data-img="images/b5.jpg" data-message="Apki hasi mein jo masoomiyat hai na… woh directly dil tak pahunchti hai 😌💓 Apki har ek baat mujhe yaad rehti hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-coffee"></i> Chai Ki Charcha
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 6 LEFT: Bagh Mein Sair - b6.jpg -->
+                <div class="timeline-item left">
+                    <div class="timeline-gift" data-img="images/b6.jpg" data-message="Is photo mein apka confidence aur grace dono shine kar rahe hain ✨👑 Apka andaaz hi sabse alag hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-tree"></i> Bagh Mein Sair
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 7 RIGHT: Baarish Mein Bhige - b7.jpg -->
+                <div class="timeline-item right">
+                    <div class="timeline-gift" data-img="images/b7.jpg" data-message="Apki aankhon mein jo pyaar aur warmth hai, woh mere din ko special bana deta hai ☀️💖 Apki presence hi happiness hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-cloud-rain"></i> Baarish Mein Bhige
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 8 LEFT: Pyaari Tasveer - b8.jpg -->
+                <div class="timeline-item left">
+                    <div class="timeline-gift" data-img="images/b8.jpg" data-message="Apka har ek gesture, choti si baat bhi mere liye bohot meaningful hai 🌹💫 Apka saath ek khoobsurat ehsaas hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-camera"></i> Pyaari Tasveer
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 9 RIGHT: Sargamiyaan - b9.jpg -->
+                <div class="timeline-item right">
+                    <div class="timeline-gift" data-img="images/b9.jpg" data-message="Jab bhi main apki tasveer dekhta hoon, mujhe apki woh pyari si smile yaad aati hai 🥰🌸 Apki khush rehna hi meri dua hai.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-music"></i> Sargamiyaan
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+
+                <!-- 10 LEFT: Dil Ki Baat - b10.jpg -->
+                <div class="timeline-item left">
+                    <div class="timeline-gift" data-img="images/b10.jpg" data-message="Apka har pal, har yaad mere liye treasure jaisa hai 💎💕 Apki respect aur apki value mere dil mein hamesha sabse upar rahegi.">
+                        <img src="gift-box.png" alt="Gift Box" class="gift-image">
+                        <div class="gift-label">
+                            <i class="fas fa-heart"></i> Dil Ki Baat
+                        </div>
+                    </div>
+                    <div class="timeline-connector"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instruction -->
+        <div class="memory-instruction">
+            <p><i class="fas fa-gift"></i> Kisi bhi gift par click karein — 8 sec baad agla gift automatically slide hoga 💝</p>
+        </div>
+
+        <!-- Floating hearts decoration -->
+        <div class="floating-hearts">
+            <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+        </div>
+    </main>
+
+    <!-- Full Screen Modal -->
+    <div id="giftModal" class="gift-modal">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <div class="modal-content">
+            <div class="modal-image-container">
+                <img id="modalImage" class="modal-image" src="" alt="Memory">
+            </div>
+            <div id="modalMessage" class="modal-message"></div>
+            <div class="modal-hearts">
+                <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-slide indicator with progress bar -->
+    <div id="autoSlideIndicator" class="auto-slide-indicator" style="display: none;">
+        <i class="fas fa-hourglass-half"></i>
+        <span>Agla gift 8 sec mein...</span>
+        <div id="timerProgress" class="timer-progress"></div>
+    </div>
+
+    <!-- Final Popup - New: Shows message and directs to final.html -->
+    <div id="finalPopup" class="final-popup">
+        <div class="final-popup-content">
+            <h3>✨ Safar Pura Hua ✨</h3>
+            <p>Aapne saari yaadein dekh li hain. Ab ek aur khoobsurat manzil aapka intezaar kar rahi hai...</p>
+            <div class="heart-decoration">
+                <i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i>
+            </div>
+            <a href="final.html" class="final-popup-btn">
+                <i class="fas fa-arrow-right"></i> Agli Manzil
+            </a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Get elements
+            const giftCards = document.querySelectorAll('.timeline-gift');
+            const modal = document.getElementById('giftModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalMsg = document.getElementById('modalMessage');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const autoIndicator = document.getElementById('autoSlideIndicator');
+            const timerProgress = document.getElementById('timerProgress');
+            const modalHearts = document.querySelector('.modal-hearts');
+            const finalPopup = document.getElementById('finalPopup');
+
+            // Array from giftCards
+            const giftArray = Array.from(giftCards);
+            
+            // Auto-slide timer variables
+            let autoSlideTimer = null;
+            let currentGiftIndex = -1;
+            let isModalOpen = false;
+            let isTransitioning = false;
+            const AUTO_SLIDE_DELAY = 8000; // 8 seconds
+
+            // Clear any existing auto-slide timer
+            function clearAutoSlideTimer() {
+                if (autoSlideTimer) {
+                    clearTimeout(autoSlideTimer);
+                    autoSlideTimer = null;
+                }
+                // Hide indicator and reset progress
+                if (autoIndicator) {
+                    autoIndicator.style.display = 'none';
+                    timerProgress.classList.remove('active');
+                    timerProgress.style.width = '0%';
+                }
+            }
+
+            // Smoothly close modal after last gift and show final popup
+            function autoCloseModal() {
+                closeModal();
+                // Show final popup after modal is closed
+                setTimeout(() => {
+                    finalPopup.classList.add('active');
+                }, 300);
+            }
+
+            // Function to hide subsequent items with smooth animation
+            function hideSubsequentItems(startIndex) {
+                // First, remove any existing slide-hidden classes from all items
+                timelineItems.forEach(item => item.classList.remove('slide-hidden'));
+                
+                // Then add slide-hidden to items after the current index
+                for (let i = startIndex + 1; i < giftArray.length; i++) {
+                    const laterItem = giftArray[i].closest('.timeline-item');
+                    if (laterItem) {
+                        laterItem.classList.add('slide-hidden');
+                    }
+                }
+            }
+
+            // Function to show all items
+            function showAllItems() {
+                timelineItems.forEach(item => item.classList.remove('slide-hidden'));
+            }
+
+            // Smooth transition to next image
+            function transitionToNextImage(nextGift) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                const nextImgSrc = nextGift.getAttribute('data-img');
+                const nextMessage = nextGift.getAttribute('data-message');
+
+                // Add transition-out classes
+                modalImg.classList.add('transition-out');
+                modalMsg.classList.add('transition-out');
+                if (modalHearts) modalHearts.style.opacity = '0';
+
+                // After animation completes, change content and animate in
+                setTimeout(() => {
+                    // Change content
+                    modalImg.src = nextImgSrc;
+                    modalMsg.textContent = nextMessage;
+
+                    // Remove transition-out and add transition-in
+                    modalImg.classList.remove('transition-out');
+                    modalImg.classList.add('transition-in');
+                    modalMsg.classList.remove('transition-out');
+                    modalMsg.classList.add('transition-in');
+                    if (modalHearts) modalHearts.style.opacity = '1';
+
+                    // Find new index
+                    const newIndex = giftArray.indexOf(nextGift);
+                    currentGiftIndex = newIndex;
+
+                    // Hide subsequent items for the new current index
+                    hideSubsequentItems(newIndex);
+
+                    // Update indicator text
+                    const span = autoIndicator.querySelector('span');
+                    if (span) {
+                        if (newIndex === giftArray.length - 1) {
+                            span.innerText = 'Closing in 8 sec...';
+                        } else {
+                            span.innerText = 'Agla gift 8 sec mein...';
+                        }
+                    }
+
+                    isTransitioning = false;
+                    
+                    // Start new timer
+                    startAutoSlideTimer(newIndex);
+
+                    // Remove transition-in classes after animation completes
+                    setTimeout(() => {
+                        modalImg.classList.remove('transition-in');
+                        modalMsg.classList.remove('transition-in');
+                    }, 500);
+                }, 350);
+            }
+
+            // Start auto-slide timer for next gift
+            function startAutoSlideTimer(index) {
+                clearAutoSlideTimer();
+                
+                if (!isModalOpen) return;
+                
+                if (index >= 0 && index < giftArray.length - 1) {
+                    // Show indicator
+                    if (autoIndicator) {
+                        autoIndicator.style.display = 'flex';
+                        // Force reflow to restart animation
+                        void timerProgress.offsetWidth;
+                        timerProgress.classList.add('active');
+                        timerProgress.style.transition = `width ${AUTO_SLIDE_DELAY}ms linear`;
+                        timerProgress.style.width = '100%';
+                    }
+                    
+                    // Set timer for 8 seconds
+                    autoSlideTimer = setTimeout(() => {
+                        // Trigger transition to next gift
+                        const nextGift = giftArray[index + 1];
+                        if (nextGift && isModalOpen && !isTransitioning) {
+                            // Smooth transition to next image
+                            transitionToNextImage(nextGift);
+                        }
+                        autoSlideTimer = null;
+                    }, AUTO_SLIDE_DELAY);
+                } else if (index === giftArray.length - 1) {
+                    // Last gift: after 8 seconds auto-close modal with smooth fade
+                    if (autoIndicator) {
+                        autoIndicator.style.display = 'flex';
+                        void timerProgress.offsetWidth;
+                        timerProgress.classList.add('active');
+                        timerProgress.style.transition = `width ${AUTO_SLIDE_DELAY}ms linear`;
+                        timerProgress.style.width = '100%';
+                        const span = autoIndicator.querySelector('span');
+                        if (span) span.innerText = 'Closing in 8 sec...';
+                    }
+
+                    autoSlideTimer = setTimeout(() => {
+                        if (isModalOpen) {
+                            autoCloseModal();
+                        }
+                        autoSlideTimer = null;
+                    }, AUTO_SLIDE_DELAY);
+                }
+            }
+
+            // Open modal + smooth slide for the next box
+            function openModalAndSlideNext(imgSrc, message, currentGift) {
+                // Clear any pending auto-slide
+                clearAutoSlideTimer();
+                
+                // Set modal content and show
+                modalImg.src = imgSrc;
+                modalMsg.textContent = message;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                isModalOpen = true;
+
+                // Add smooth open effect to clicked gift box
+                if (currentGift) {
+                    currentGift.classList.add('open-effect');
+                    setTimeout(() => {
+                        currentGift.classList.remove('open-effect');
+                    }, 600);
+                }
+
+                // Find index of current gift
+                const currentIndex = giftArray.indexOf(currentGift);
+                currentGiftIndex = currentIndex;
+                
+                // Hide all subsequent items
+                hideSubsequentItems(currentIndex);
+                
+                // Reset indicator text in case it was changed
+                const span = autoIndicator.querySelector('span');
+                if (span) span.innerText = 'Agla gift 8 sec mein...';
+                
+                // Start auto-slide timer (handles next or close)
+                startAutoSlideTimer(currentIndex);
+            }
+
+            // Close modal function
+            function closeModal() {
+                // Add fade-out animation to modal content
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent) {
+                    modalContent.style.animation = 'scaleIn 0.3s ease reverse';
+                }
+                
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    
+                    isModalOpen = false;
+                    currentGiftIndex = -1;
+                    isTransitioning = false;
+                    clearAutoSlideTimer();
+                    showAllItems();
+                    
+                    if (modalContent) {
+                        modalContent.style.animation = '';
+                    }
+                    modalImg.classList.remove('transition-out', 'transition-in');
+                    modalMsg.classList.remove('transition-out', 'transition-in');
+                }, 200);
+            }
+
+            // Add click events to gift cards
+            giftCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const imgSrc = this.getAttribute('data-img');
+                    const message = this.getAttribute('data-message');
+                    openModalAndSlideNext(imgSrc, message, this);
+                });
+            });
+
+            // Close button click
+            closeBtn.addEventListener('click', closeModal);
+
+            // Click outside modal content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+                // Close final popup with escape
+                if (e.key === 'Escape' && finalPopup.classList.contains('active')) {
+                    finalPopup.classList.remove('active');
+                }
+            });
+
+            // Click outside final popup to close
+            finalPopup.addEventListener('click', function(e) {
+                if (e.target === finalPopup) {
+                    finalPopup.classList.remove('active');
+                }
+            });
+
+            // Background music
+            const bgMusic = document.getElementById('bgMusic');
+            
+            function initMusic() {
+                if (bgMusic) {
+                    bgMusic.volume = 0.3;
+                    bgMusic.play().catch(() => {});
+                }
+                document.removeEventListener('click', initMusic);
+                document.removeEventListener('touchstart', initMusic);
+            }
+
+            document.addEventListener('click', initMusic);
+            document.addEventListener('touchstart', initMusic);
+            bgMusic?.play().catch(() => {});
+            
+            // Clean up timer if modal closed by other means
+            window.addEventListener('beforeunload', function() {
+                clearAutoSlideTimer();
+            });
+
+            // Preload next image for smoother transitions
+            function preloadImage(src) {
+                const img = new Image();
+                img.src = src;
+            }
+
+            // Preload all images for smoother auto-slide
+            giftArray.forEach(card => {
+                const imgSrc = card.getAttribute('data-img');
+                if (imgSrc) {
+                    preloadImage(imgSrc);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

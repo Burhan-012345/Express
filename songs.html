@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gaane jo tumhari yaad dilate hain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: pan-y;
+        }
+
+        .dreamy-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle fill="rgba(157,123,255,0.1)" cx="10" cy="10" r="1"/><circle fill="rgba(255,158,192,0.1)" cx="5" cy="15" r="0.8"/><circle fill="rgba(157,123,255,0.1)" cx="15" cy="5" r="0.6"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Song Sections - Full Screen */
+        .song-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            z-index: 1;
+        }
+
+        .song-section.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Song Image */
+        .song-image-container {
+            width: 90%;
+            max-width: 500px;
+            height: 50vh;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: floatImage 20s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(0.5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(10px) rotate(-0.5deg); }
+        }
+
+        .song-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            opacity: 0.7;
+        }
+
+        /* Song Info */
+        .song-info {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .song-number {
+            font-size: 1rem;
+            color: #9d7bff;
+            margin-bottom: 5px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .song-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(157, 123, 255, 0.5);
+        }
+
+        .song-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* Enhanced Player */
+        .player-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .song-name {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .heart-btn {
+            background: none;
+            border: none;
+            color: #ddd;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heart-btn:hover {
+            background: rgba(255, 107, 157, 0.2);
+            color: #ff6b9d;
+            transform: scale(1.1);
+        }
+
+        .heart-btn.liked {
+            color: #ff6b9d;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff9ec0, #9d7bff);
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        /* Player Controls */
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: rgba(157, 123, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(157, 123, 255, 0.3);
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(135deg, #ff8eaf, #8b6ae8);
+            transform: scale(1.05);
+        }
+
+        .play-btn.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(157, 123, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(157, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(157, 123, 255, 0); }
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .nav-arrow:hover {
+            opacity: 1;
+            background: rgba(157, 123, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left {
+            left: 20px;
+        }
+
+        .nav-arrow.right {
+            right: 20px;
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .nav-arrow:disabled:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Song Counter */
+        .song-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1rem;
+            color: #aaa;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Main Navigation */
+        .main-navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        @media (min-width: 768px) {
+            .main-navigation {
+                flex-direction: row;
+            }
+        }
+
+        .main-nav-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .main-nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .main-nav-btn.back-btn {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+
+        /* Volume Control */
+        .volume-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .volume-btn:hover {
+            background: rgba(157, 123, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .volume-slider {
+            width: 0;
+            overflow: hidden;
+            transition: width 0.3s ease;
+        }
+
+        .volume-control:hover .volume-slider {
+            width: 100px;
+        }
+
+        .volume-slider input {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #9d7bff;
+            cursor: pointer;
+        }
+
+        /* Last Song Special Styling */
+        .song-section[data-song="10"] .player-container {
+            border: 2px solid rgba(52, 211, 153, 0.3);
+            box-shadow: 0 10px 30px rgba(52, 211, 153, 0.2);
+        }
+
+        .song-section[data-song="10"] .play-btn {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+
+        .song-section[data-song="10"] .progress-bar {
+            background: linear-gradient(to right, #34d399, #10b981);
+        }
+
+        /* Videos Popup */
+        .videos-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .videos-popup.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 2px solid #ff9ec0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.5s ease;
+            position: relative;
+        }
+
+        .popup-content h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff9ec0;
+            margin-bottom: 15px;
+        }
+
+        .popup-content p {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .popup-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        .popup-btn.stay {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .popup-btn.videos {
+            background: linear-gradient(135deg, #ff9ec0, #9d7bff);
+            color: white;
+        }
+
+        .popup-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .popup-close:hover {
+            color: #ff9ec0;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .song-image-container {
+                height: 40vh;
+                max-width: 400px;
+            }
+
+            .song-title {
+                font-size: 2.8rem;
+            }
+
+            .player-container {
+                padding: 20px;
+                max-width: 400px;
+            }
+
+            .song-name {
+                font-size: 1.5rem;
+            }
+
+            .play-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .nav-arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .nav-arrow.left {
+                left: 10px;
+            }
+
+            .nav-arrow.right {
+                right: 10px;
+            }
+
+            .main-navigation {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .main-nav-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .popup-content {
+                padding: 30px 20px;
+            }
+
+            .popup-content h3 {
+                font-size: 2.5rem;
+            }
+
+            .popup-content p {
+                font-size: 1.2rem;
+            }
+
+            .popup-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .popup-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .song-image-container {
+                height: 35vh;
+                max-width: 320px;
+                border-radius: 15px;
+            }
+
+            .song-title {
+                font-size: 2.2rem;
+            }
+
+            .song-subtitle {
+                font-size: 1rem;
+            }
+
+            .player-container {
+                padding: 15px;
+                max-width: 320px;
+                border-radius: 15px;
+            }
+
+            .song-name {
+                font-size: 1.3rem;
+            }
+
+            .play-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .nav-arrow {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
+            .main-nav-btn {
+                padding: 9px 18px;
+                font-size: 0.95rem;
+            }
+
+            .volume-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .popup-content h3 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .song-title {
+                font-size: 1.8rem;
+            }
+
+            .song-image-container {
+                height: 30vh;
+                max-width: 280px;
+            }
+
+            .player-container {
+                max-width: 280px;
+            }
+
+            .control-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+
+            .play-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .main-nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(157, 123, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #9d7bff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dreamy-overlay"></div>
+    
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Volume Control -->
+    <div class="volume-control">
+        <button class="volume-btn" id="volumeToggle">
+            <i class="fas fa-volume-up"></i>
+        </button>
+        <div class="volume-slider">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+        </div>
+    </div>
+
+    <!-- Song Sections -->
+    <!-- Song 1 -->
+    <div class="song-section active" data-song="1">
+        <div class="song-image-container">
+            <img src="images/b1.jpg" alt="Raabta" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 1 of 10</div>
+            <h2 class="song-title">Raabta</h2>
+            <div class="song-subtitle">A soulful melody that connects hearts</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Raabta</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/raabta.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 2 -->
+    <div class="song-section" data-song="2">
+        <div class="song-image-container">
+            <img src="images/b2.jpg" alt="Agar Tum Saath Ho" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 2 of 10</div>
+            <h2 class="song-title">Agar Tum Saath Ho</h2>
+            <div class="song-subtitle">A promise of togetherness</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Agar Tum Saath Ho</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/tum.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 3 -->
+    <div class="song-section" data-song="3">
+        <div class="song-image-container">
+            <img src="images/b3.jpg" alt="Tum Hi Ho" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 3 of 10</div>
+            <h2 class="song-title">Tum Hi Ho</h2>
+            <div class="song-subtitle">You are the one</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Tum Hi Ho</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/hi.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 4 -->
+    <div class="song-section" data-song="4">
+        <div class="song-image-container">
+            <img src="images/b4.jpg" alt="Pehli Dafa" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 4 of 10</div>
+            <h2 class="song-title">Pehli Dafa</h2>
+            <div class="song-subtitle">The first time feeling</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Pehli Dafa</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/pehli.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 5 -->
+    <div class="song-section" data-song="5">
+        <div class="song-image-container">
+            <img src="images/b5.jpg" alt="Jeena Jeena" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 5 of 10</div>
+            <h2 class="song-title">Jeena Jeena</h2>
+            <div class="song-subtitle">Living life with you</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Jeena Jeena</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/jeena.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 6 -->
+    <div class="song-section" data-song="6">
+        <div class="song-image-container">
+            <img src="images/b6.jpg" alt="Tera Ban Jaunga" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 6 of 10</div>
+            <h2 class="song-title">Tera Ban Jaunga</h2>
+            <div class="song-subtitle">I will become yours</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Tera Ban Jaunga</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/tera.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 7 -->
+    <div class="song-section" data-song="7">
+        <div class="song-image-container">
+            <img src="images/b7.jpg" alt="Hawayein" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 7 of 10</div>
+            <h2 class="song-title">Hawayein</h2>
+            <div class="song-subtitle">Like the gentle breeze</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Hawayein</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/hawayein.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 8 -->
+    <div class="song-section" data-song="8">
+        <div class="song-image-container">
+            <img src="images/b8.jpg" alt="Channa Mereya" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 8 of 10</div>
+            <h2 class="song-title">Channa Mereya</h2>
+            <div class="song-subtitle">My beloved moon</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Channa Mereya</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/channa.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 9 -->
+    <div class="song-section" data-song="9">
+        <div class="song-image-container">
+            <img src="images/b9.jpg" alt="Raanjhana" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 9 of 10</div>
+            <h2 class="song-title">Raanjhana</h2>
+            <div class="song-subtitle">The lover</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Raanjhana</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/raanjhana.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Song 10 -->
+    <div class="song-section" data-song="10">
+        <div class="song-image-container">
+            <img src="images/b10.jpg" alt="Tujhe Kitna Chahne Lage" class="song-image" loading="lazy" onerror="this.src='images/default-song.jpg'">
+            <div class="image-overlay">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        
+        <div class="song-info">
+            <div class="song-number">Song 10 of 10</div>
+            <h2 class="song-title">Tujhe Kitna Chahne Lage</h2>
+            <div class="song-subtitle">How much I've started loving you</div>
+        </div>
+        
+        <div class="player-container">
+            <div class="player-header">
+                <div class="song-name">Tujhe Kitna Chahne Lage</div>
+                <button class="heart-btn" title="Like song">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="time-display">
+                <span class="current-time">0:00</span>
+                <span class="duration">0:00</span>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn prev-btn" title="Previous song">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="control-btn play-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <button class="control-btn next-btn" title="Next song">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <audio class="audio-element" preload="metadata">
+                <source src="audio/songs/tujhe.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="nav-arrow left" id="prevArrow" disabled>
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button class="nav-arrow right" id="nextArrow">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Song Counter -->
+    <div class="song-counter">
+        <span id="currentSongIndex">1</span> / <span id="totalSongs">10</span>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="main-navigation">
+        <a href="memory.html" class="main-nav-btn back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Memories
+        </a>
+    </div>
+
+    <!-- Videos Popup -->
+    <div id="videosPopup" class="videos-popup">
+        <div class="popup-content">
+            <span class="popup-close" id="closePopupBtn">&times;</span>
+            <h3>✨ Journey Complete ✨</h3>
+            <p>Aapne saare gaane sun liye hain. Kya aap videos dekhna chahenge?</p>
+            <div class="popup-buttons">
+                <button class="popup-btn stay" id="stayBtn">Rukein</button>
+                <a href="videos.html" class="popup-btn videos">Videos Dekhein <i class="fas fa-video"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const songSections = document.querySelectorAll('.song-section');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const currentSongIndexEl = document.getElementById('currentSongIndex');
+        const totalSongsEl = document.getElementById('totalSongs');
+        const volumeToggle = document.getElementById('volumeToggle');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const loadingScreen = document.querySelector('.loading');
+        const videosPopup = document.getElementById('videosPopup');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+        const stayBtn = document.getElementById('stayBtn');
+
+        // Player state
+        let currentSectionIndex = 0;
+        let currentAudioElement = null;
+        let isPlaying = false;
+        let likedSongs = new Set();
+        let hasShownPopup = false;
+
+        // Initialize app
+        function initApp() {
+            totalSongsEl.textContent = songSections.length;
+            updateNavigation();
+            
+            // Initialize all audio elements with event listeners
+            songSections.forEach((section, index) => {
+                const audio = section.querySelector('.audio-element');
+                if (audio) {
+                    setupAudioEventListeners(audio, index);
+                }
+            });
+            
+            initAudioForSection(currentSectionIndex);
+            setupEventListeners();
+            
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+        }
+
+        function setupAudioEventListeners(audio, index) {
+            // Remove any existing event listeners by cloning
+            const newAudio = audio.cloneNode(true);
+            audio.parentNode.replaceChild(newAudio, audio);
+            
+            // Update the audio element in the section
+            const section = songSections[index];
+            const oldAudio = section.querySelector('.audio-element');
+            section.querySelector('.player-container').appendChild(newAudio);
+            
+            // Set up new event listeners
+            newAudio.addEventListener('timeupdate', () => {
+                const progressBar = section.querySelector('.progress-bar');
+                const currentTimeEl = section.querySelector('.current-time');
+                const durationEl = section.querySelector('.duration');
+                updateTimeDisplay(newAudio, progressBar, currentTimeEl, durationEl);
+            });
+            
+            newAudio.addEventListener('loadedmetadata', () => {
+                const progressBar = section.querySelector('.progress-bar');
+                const currentTimeEl = section.querySelector('.current-time');
+                const durationEl = section.querySelector('.duration');
+                updateTimeDisplay(newAudio, progressBar, currentTimeEl, durationEl);
+            });
+            
+            newAudio.addEventListener('ended', () => {
+                console.log(`Song ${index + 1} ended`); // Debug log
+                resetPlayerState(index);
+                isPlaying = false;
+                
+                if (index === songSections.length - 1) {
+                    // Last song ended - show videos popup
+                    console.log('Last song ended, showing popup'); // Debug log
+                    setTimeout(showVideosPopup, 500);
+                } else {
+                    // Auto-play next song
+                    setTimeout(() => navigateToSection(index + 1, true), 1000);
+                }
+            });
+            
+            newAudio.addEventListener('error', (e) => {
+                console.error(`Error loading audio ${index}:`, newAudio.error);
+            });
+            
+            // Update the reference in the section
+            section.querySelectorAll('.audio-element').forEach(el => {
+                if (el !== newAudio) el.remove();
+            });
+        }
+
+        function navigateToSection(index, shouldAutoPlay = true) {
+            if (index < 0 || index >= songSections.length) return;
+            
+            if (currentAudioElement && isPlaying) {
+                currentAudioElement.pause();
+                resetPlayerState(currentSectionIndex);
+            }
+            
+            songSections[currentSectionIndex].classList.remove('active');
+            currentSectionIndex = index;
+            songSections[currentSectionIndex].classList.add('active');
+            
+            updateNavigation();
+            initAudioForSection(currentSectionIndex);
+            currentSongIndexEl.textContent = currentSectionIndex + 1;
+            
+            if (shouldAutoPlay && currentAudioElement) {
+                setTimeout(() => {
+                    const playPromise = currentAudioElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            isPlaying = true;
+                            updatePlayButton(currentSectionIndex, true);
+                        }).catch(error => {
+                            console.error("Error auto-playing audio:", error);
+                            isPlaying = false;
+                            updatePlayButton(currentSectionIndex, false);
+                        });
+                    }
+                }, 300);
+            }
+        }
+
+        function initAudioForSection(index) {
+            const section = songSections[index];
+            const audio = section.querySelector('.audio-element');
+            const heartBtn = section.querySelector('.heart-btn');
+            const heartIcon = heartBtn?.querySelector('i');
+            
+            if (!audio) return;
+            
+            currentAudioElement = audio;
+            
+            // Update heart button state
+            if (likedSongs.has(index) && heartIcon) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                heartBtn.classList.add('liked');
+            }
+            
+            // Update time display
+            const progressBar = section.querySelector('.progress-bar');
+            const currentTimeEl = section.querySelector('.current-time');
+            const durationEl = section.querySelector('.duration');
+            updateTimeDisplay(audio, progressBar, currentTimeEl, durationEl);
+        }
+
+        function updateTimeDisplay(audio, progressBar, currentTimeEl, durationEl) {
+            if (!audio) return;
+            
+            if (currentTimeEl) {
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+            
+            if (durationEl && audio.duration && !isNaN(audio.duration)) {
+                durationEl.textContent = formatTime(audio.duration);
+                
+                if (progressBar) {
+                    const progressPercent = (audio.currentTime / audio.duration) * 100;
+                    progressBar.style.width = `${progressPercent}%`;
+                }
+            }
+        }
+
+        function togglePlayPause() {
+            if (!currentAudioElement) return;
+            
+            if (isPlaying) {
+                currentAudioElement.pause();
+                isPlaying = false;
+                updatePlayButton(currentSectionIndex, false);
+            } else {
+                const playPromise = currentAudioElement.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlaying = true;
+                        updatePlayButton(currentSectionIndex, true);
+                    }).catch(error => {
+                        console.error("Error playing audio:", error);
+                    });
+                }
+            }
+        }
+
+        function updatePlayButton(index, playing) {
+            const section = songSections[index];
+            const playBtn = section.querySelector('.play-btn');
+            const playIcon = playBtn?.querySelector('i');
+            
+            if (playBtn && playIcon) {
+                playIcon.classList.toggle('fa-play', !playing);
+                playIcon.classList.toggle('fa-pause', playing);
+                playBtn.classList.toggle('playing', playing);
+            }
+        }
+
+        function resetPlayerState(index) {
+            const section = songSections[index];
+            const playBtn = section.querySelector('.play-btn');
+            const playIcon = playBtn?.querySelector('i');
+            const progressBar = section.querySelector('.progress-bar');
+            const currentTimeEl = section.querySelector('.current-time');
+            
+            if (playIcon) {
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+            if (playBtn) {
+                playBtn.classList.remove('playing');
+            }
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+            if (currentTimeEl) {
+                currentTimeEl.textContent = '0:00';
+            }
+        }
+
+        function toggleLike(index) {
+            if (likedSongs.has(index)) {
+                likedSongs.delete(index);
+            } else {
+                likedSongs.add(index);
+            }
+            
+            const heartBtn = songSections[index].querySelector('.heart-btn');
+            const heartIcon = heartBtn?.querySelector('i');
+            
+            if (heartBtn && heartIcon) {
+                if (likedSongs.has(index)) {
+                    heartIcon.classList.remove('far');
+                    heartIcon.classList.add('fas');
+                    heartBtn.classList.add('liked');
+                } else {
+                    heartIcon.classList.remove('fas');
+                    heartIcon.classList.add('far');
+                    heartBtn.classList.remove('liked');
+                }
+            }
+        }
+
+        function updateNavigation() {
+            prevArrow.disabled = currentSectionIndex === 0;
+            nextArrow.disabled = currentSectionIndex === songSections.length - 1;
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function showVideosPopup() {
+            if (!hasShownPopup) {
+                console.log('Showing videos popup'); // Debug log
+                videosPopup.classList.add('show');
+                hasShownPopup = true;
+            }
+        }
+
+        function hideVideosPopup() {
+            videosPopup.classList.remove('show');
+        }
+
+        function setupEventListeners() {
+            prevArrow.addEventListener('click', () => {
+                if (currentSectionIndex > 0) {
+                    navigateToSection(currentSectionIndex - 1, false);
+                }
+            });
+            
+            nextArrow.addEventListener('click', () => {
+                if (currentSectionIndex < songSections.length - 1) {
+                    navigateToSection(currentSectionIndex + 1, false);
+                } else {
+                    // On last song, show videos popup
+                    showVideosPopup();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'ArrowLeft' && currentSectionIndex > 0) {
+                    navigateToSection(currentSectionIndex - 1, false);
+                } else if (e.code === 'ArrowRight' && currentSectionIndex < songSections.length - 1) {
+                    navigateToSection(currentSectionIndex + 1, false);
+                } else if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlayPause();
+                } else if (e.code === 'Escape' && videosPopup.classList.contains('show')) {
+                    hideVideosPopup();
+                }
+            });
+            
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0 && currentSectionIndex < songSections.length - 1) {
+                        navigateToSection(currentSectionIndex + 1, false);
+                    } else if (diff < 0 && currentSectionIndex > 0) {
+                        navigateToSection(currentSectionIndex - 1, false);
+                    }
+                }
+            }
+            
+            songSections.forEach((section, index) => {
+                const playBtn = section.querySelector('.play-btn');
+                const prevBtn = section.querySelector('.prev-btn');
+                const nextBtn = section.querySelector('.next-btn');
+                const heartBtn = section.querySelector('.heart-btn');
+                const progressContainer = section.querySelector('.progress-container');
+                const audio = section.querySelector('.audio-element');
+                
+                if (playBtn) {
+                    playBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        togglePlayPause();
+                    });
+                }
+                
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (currentSectionIndex > 0) {
+                            navigateToSection(currentSectionIndex - 1, false);
+                        }
+                    });
+                }
+                
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (currentSectionIndex < songSections.length - 1) {
+                            navigateToSection(currentSectionIndex + 1, false);
+                        } else {
+                            // On last song, show videos popup
+                            showVideosPopup();
+                        }
+                    });
+                }
+                
+                if (heartBtn) {
+                    heartBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleLike(index);
+                    });
+                }
+                
+                if (progressContainer && audio) {
+                    progressContainer.addEventListener('click', (e) => {
+                        const rect = progressContainer.getBoundingClientRect();
+                        const clickX = e.clientX - rect.left;
+                        const width = rect.width;
+                        const duration = audio.duration;
+                        
+                        if (duration && !isNaN(duration)) {
+                            audio.currentTime = (clickX / width) * duration;
+                        }
+                    });
+                }
+            });
+            
+            volumeToggle.addEventListener('click', () => {
+                const icon = volumeToggle.querySelector('i');
+                if (icon.classList.contains('fa-volume-up')) {
+                    icon.classList.remove('fa-volume-up');
+                    icon.classList.add('fa-volume-mute');
+                    if (currentAudioElement) currentAudioElement.volume = 0;
+                    volumeSlider.value = 0;
+                } else {
+                    icon.classList.remove('fa-volume-mute');
+                    icon.classList.add('fa-volume-up');
+                    if (currentAudioElement) currentAudioElement.volume = 1;
+                    volumeSlider.value = 1;
+                }
+            });
+            
+            volumeSlider.addEventListener('input', (e) => {
+                const volume = parseFloat(e.target.value);
+                if (currentAudioElement) currentAudioElement.volume = volume;
+                
+                const icon = volumeToggle.querySelector('i');
+                if (volume === 0) {
+                    icon.classList.remove('fa-volume-up');
+                    icon.classList.add('fa-volume-mute');
+                } else {
+                    icon.classList.remove('fa-volume-mute');
+                    icon.classList.add('fa-volume-up');
+                }
+            });
+
+            // Popup event listeners
+            closePopupBtn.addEventListener('click', hideVideosPopup);
+            stayBtn.addEventListener('click', hideVideosPopup);
+
+            // Click outside popup to close
+            videosPopup.addEventListener('click', (e) => {
+                if (e.target === videosPopup) {
+                    hideVideosPopup();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

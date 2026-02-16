@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotional Confession</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Playfair+Display:wght@400;500;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Music (hidden) -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button id="prevBtn" class="nav-btn dreamy-btn" disabled>
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <button id="nextBtn" class="nav-btn dreamy-btn">
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-dots">
+            <span class="progress-dot active" data-index="0"><i class="fas fa-heart"></i></span>
+            <span class="progress-dot" data-index="1"><i class="fas fa-moon"></i></span>
+            <span class="progress-dot" data-index="2"><i class="fas fa-feather-alt"></i></span>
+            <span class="progress-dot" data-index="3"><i class="fas fa-star"></i></span>
+            <span class="progress-dot" data-index="4"><i class="fas fa-sun"></i></span>
+            <span class="progress-dot" data-index="5"><i class="fas fa-handshake"></i></span>
+            <span class="progress-dot" data-index="6"><i class="fas fa-heartbeat"></i></span>
+            <span class="progress-dot" data-index="7"><i class="fas fa-music"></i></span>
+        </div>
+    </div>
+
+    <!-- Main Container with all sections -->
+    <main id="mainContainer">
+        <!-- Section 1: INTRO / LANDING -->
+        <section id="intro" class="section active dreamy-section">
+            <div class="gif-container">
+                <img src="https://tenor.com/tulh6huUpBO.gif" alt="Floating hearts" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu1.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h1 class="main-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Kuch</span>
+                        <span class="word">Kehna</span>
+                        <span class="word">Hai...</span>
+                    </span>
+                </h1>
+                <p class="intro-text dreamy-text">💭 Bas itna jaanta hoon ki jaane ke baad, zindagi mein kuch khaali sa reh gaya hai. 💔</p>
+                <button id="startBtn" class="cta-btn magic-btn">
+                    Please poora padhna <i class="fas fa-heart"></i>
+                </button>
+                <div class="music-note dreamy-note">
+                    <i class="fas fa-music"></i> Background music will play after starting
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: UNDERSTANDING HER SITUATION -->
+        <section id="understanding" class="section dreamy-section">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif" alt="Night sky" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu2.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h2 class="section-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Main</span>
+                        <span class="word">Samajhta</span>
+                        <span class="word">Hoon</span>
+                    </span>
+                </h2>
+                <div class="text-box dreamy-text-box">
+                    <p class="dreamy-paragraph"><i class="fas fa-cloud-moon"></i> 👨‍👩‍👧 Parents ka pressure, unki expectations, aur family ki responsibility... main sab samajh sakta hoon. 🤝</p>
+                    <p class="dreamy-paragraph"><i class="fas fa-hands"></i> 🏡 Family ke liye commitment bahut respectable hai. Main kisi bhi tarah se parents ke decision ko oppose nahi karta. 🙏</p>
+                    <p class="dreamy-paragraph"><i class="fas fa-heart"></i> 💫 Emotions bhi important hain. Khush rahna, yeh sabse zaroori hai. 😊</p>
+                </div>
+                <div class="section-navigation">
+                    <button class="section-nav-btn dreamy-btn prev-section-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="section-nav-btn dreamy-btn next-section-btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: CONFESSING FEELINGS -->
+        <section id="confession" class="section dreamy-section">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/l41YkuPROHQj0fjGM/giphy.gif" alt="Romantic couple" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu3.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h2 class="section-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Mere</span>
+                        <span class="word">Feelings</span>
+                    </span>
+                </h2>
+                <div class="typewriter-container dreamy-typewriter">
+                    <div id="typewriter-text" class="typewriter-text"></div>
+                    <div class="typing-cursor">|</div>
+                </div>
+                <div class="confession-text dreamy-text">
+                    <p><i class="fas fa-sparkles"></i> ✨ Kabhi kabhi lagta hai ki saath guzara har pal special tha. 💕</p>
+                    <p><i class="fas fa-sparkles"></i> 😊 Smile, baatein, har ek gesture... sab kuch yaad aata hai. 🫂</p>
+                    <p><i class="fas fa-sparkles"></i> ❤️ Yeh feelings sirf infatuation nahi hain. Main isko seriously leta hoon, with all my heart. 🤲</p>
+                </div>
+                <div class="section-navigation">
+                    <button class="section-nav-btn dreamy-btn prev-section-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="section-nav-btn dreamy-btn next-section-btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: VOICE NOTE SECTION WITH TWO PARTS -->
+        <section id="voice-note" class="section dreamy-section">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif" alt="Stars and light" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu4.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h2 class="section-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Meri</span>
+                        <span class="word">Awaaz</span>
+                        <span class="word">Sunogi?</span>
+                    </span>
+                </h2>
+                <div class="voice-note-container">
+                    <div class="voice-icon">
+                        <i class="fas fa-microphone-alt fa-4x"></i>
+                    </div>
+                    <p class="dreamy-paragraph center-text">
+                        <i class="fas fa-headphones"></i> 🎧 Sometimes words written aren't enough. Here's my heart in my voice.
+                    </p>
+                    
+                    <!-- Audio Part 1 -->
+                    <div class="audio-part" id="audioPart1">
+                        <div class="part-label">
+                            <i class="fas fa-heart"></i> Part 1: My Feelings
+                        </div>
+                        <button id="playPart1Btn" class="cta-btn magic-btn part-btn">
+                            <i class="fas fa-play"></i> Play Part 1
+                        </button>
+                        <div class="audio-player hidden" id="audioPlayer1">
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <audio id="voiceAudio1" preload="metadata" data-part="1">
+                                <source src="audio/voice-note-part1.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="audio-controls">
+                                <button id="playPauseBtn1" class="audio-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <div class="time-display">
+                                    <span id="currentTime1">0:00</span> / <span id="totalTime1">0:00</span>
+                                </div>
+                                <button id="muteBtn1" class="audio-btn">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Part 2 -->
+                    <div class="audio-part hidden" id="audioPart2">
+                        <div class="part-label">
+                            <i class="fas fa-star"></i> Part 2: My Promise
+                        </div>
+                        <button id="playPart2Btn" class="cta-btn magic-btn part-btn">
+                            <i class="fas fa-play"></i> Play Part 2
+                        </button>
+                        <div class="audio-player hidden" id="audioPlayer2">
+                            <div class="waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <audio id="voiceAudio2" preload="metadata" data-part="2">
+                                <source src="audio/voice-note-part2.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="audio-controls">
+                                <button id="playPauseBtn2" class="audio-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <div class="time-display">
+                                    <span id="currentTime2">0:00</span> / <span id="totalTime2">0:00</span>
+                                </div>
+                                <button id="muteBtn2" class="audio-btn">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="audio-progress-indicator">
+                        <div class="progress-steps">
+                            <div class="step active" id="step1">Part 1</div>
+                            <div class="step" id="step2">Part 2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-navigation">
+                    <button class="section-nav-btn dreamy-btn prev-section-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="section-nav-btn dreamy-btn next-section-btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: SERIOUSNESS OF LOVE -->
+        <section id="seriousness" class="section dreamy-section">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/l0MYAsU93Kfw5dPeg/giphy.gif" alt="Sunrise and road" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu5.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h2 class="section-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Yeh</span>
+                        <span class="word">Pyaar</span>
+                        <span class="word">Serious</span>
+                        <span class="word">Hai</span>
+                    </span>
+                </h2>
+                <div class="cards-container">
+                    <div class="card dreamy-card">
+                        <div class="card-icon"><i class="fas fa-clock dreamy-icon"></i></div>
+                        <h3 class="card-title dreamy-card-title">Time-Pass Nahi</h3>
+                        <p class="card-text dreamy-card-text">⏳ Yeh koi temporary feeling nahi hai. Months se soch raha hoon, emotions clear hain. 💭</p>
+                    </div>
+                    <div class="card dreamy-card">
+                        <div class="card-icon"><i class="fas fa-hands dreamy-icon"></i></div>
+                        <h3 class="card-title dreamy-card-title">Patience Hai</h3>
+                        <p class="card-text dreamy-card-text">🌱 Main jaldi-bazi nahi karta. Main samajhta hoon ki sab kuch time leta hai. ⏰</p>
+                    </div>
+                    <div class="card dreamy-card">
+                        <div class="card-icon"><i class="fas fa-shield-alt dreamy-icon"></i></div>
+                        <h3 class="card-title dreamy-card-title">Responsibility</h3>
+                        <p class="card-text dreamy-card-text">🛡️ Main apne feelings ki responsibility leta hoon. Koi pressure nahi dunga. 🤗</p>
+                    </div>
+                </div>
+                <div class="section-navigation">
+                    <button class="section-nav-btn dreamy-btn prev-section-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="section-nav-btn dreamy-btn next-section-btn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: FUTURE WITH HOPE (UPDATED WITH MEMORY TREE BUTTON) -->
+        <section id="future" class="section dreamy-section">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/l0HlKrS9uBhgOQkAg/giphy.gif" alt="Rain window" class="section-gif" loading="lazy">
+            </div>
+            <div class="dreamy-overlay"></div>
+            <div class="content dreamy-content">
+                <div class="bubu-dudu-container">
+                    <img src="gifs/bubu6.gif" alt="Bubu and Dudu" class="bubu-dudu-gif" loading="lazy">
+                </div>
+                <h2 class="section-title dreamy-title">
+                    <span class="title-words">
+                        <span class="word">Future</span>
+                        <span class="word">Ke</span>
+                        <span class="word">Liye</span>
+                        <span class="word">Hope</span>
+                    </span>
+                </h2>
+                <div class="text-box dreamy-text-box">
+                    <p class="dreamy-paragraph"><i class="fas fa-road"></i> 🛤️ Main yeh nahi keh raha ki parents se lad liya jaaye. ✋</p>
+                    <p class="dreamy-paragraph"><i class="fas fa-hourglass-half"></i> 💝 Main bas itna kehna chahta hoon ki agar dil mein bhi kuch hai, toh time do. ⏳</p>
+                    <p class="dreamy-paragraph"><i class="fas fa-seedling"></i> 🌱 Hum dono patience rakhein, aur dekhein ki future kya lekar aata hai. 🔮</p>
+                    <p class="highlight dreamy-highlight">
+                        <i class="fas fa-sun"></i> ☀️ Bas thoda sa hope rakho, thoda sa time do, aur thoda sa trust rakho. 🤝
+                    </p>
+                </div>
+                <div class="next-pages-links">
+                    <p class="dreamy-paragraph center-text">Continue to explore more...</p>
+                    <div class="page-links">
+                        <a href="memory.html" class="page-link-btn dreamy-btn">
+                            <i class="fas fa-memory"></i> Hamari Yaadein
+                        </a>
+                        <a href="songs.html" class="page-link-btn dreamy-btn">
+                            <i class="fas fa-music"></i> Special Songs
+                        </a>
+                        <a href="videos.html" class="page-link-btn dreamy-btn">
+                            <i class="fas fa-video"></i> Kuch Videos
+                        </a>
+                        <!-- NEW MEMORY TREE BUTTON ADDED HERE -->
+<a href="memory-tree.html" class="page-link-btn dreamy-btn memory-tree-btn">
+<i class="fas fa-comment-dots"></i> Messages
+</a>
+                    </div>
+                </div>
+                <div class="section-navigation">
+                    <button class="section-nav-btn dreamy-btn prev-section-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <a href="breathe.html" class="section-nav-btn dreamy-btn">
+                        Continue <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="musicToggle" class="music-btn dreamy-btn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
